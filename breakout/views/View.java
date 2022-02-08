@@ -10,7 +10,7 @@ public class View {
 
     public View(Sketch app, Input[] inputs) {
         this.app = app;
-        this.inputs = inputs;
+        this.inputs = inputs == null ? new Input[0] : inputs;
     }
 
     public void draw() {
@@ -31,12 +31,5 @@ public class View {
                 ((TextInput) input).onInput(app.key);
             }
         }
-    }
-
-    public Input[] getInputs() {
-        if (inputs == null) {
-            return new Input[]{};
-        }
-        return inputs;
     }
 }

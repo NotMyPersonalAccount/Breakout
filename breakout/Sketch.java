@@ -28,22 +28,10 @@ public class Sketch extends PApplet {
 
     public void mousePressed() {
         view.mousePressed();
-        for (Input input : view.getInputs()) {
-            if (input.isHovering()) {
-                input.onClick();
-                break;
-            }
-        }
     }
 
     public void keyPressed() {
         view.keyPressed();
-        for (Input input : view.getInputs()) {
-            if (input instanceof TextInput) {
-                ((TextInput) input).onInput(key);
-                break;
-            }
-        }
     }
 
     public void setView(View view) {
