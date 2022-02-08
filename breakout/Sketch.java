@@ -12,7 +12,7 @@ public class Sketch extends PApplet {
     public static final int CANVAS_SIZE_X = 480;
     public static final int CANVAS_SIZE_Y = 480;
 
-    public static final int BASE_TEXT_SIZE = 24;
+    public static final int BASE_TEXT_SIZE = CANVAS_SIZE_X / 20;
 
     public void settings() {
         size(CANVAS_SIZE_X, CANVAS_SIZE_Y);
