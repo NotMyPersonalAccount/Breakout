@@ -1,9 +1,8 @@
 package breakout.views;
 
+import breakout.Sketch;
 import breakout.objects.Ball;
 import breakout.objects.Brick;
-import breakout.views.input.Input;
-import processing.core.PApplet;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class GameView extends View {
 
     private Ball ball;
 
-    public GameView(PApplet app) {
+    public GameView(Sketch app) {
         super(app, null);
 
         initGame();
@@ -51,6 +50,10 @@ public class GameView extends View {
 
         if (remainingBricks == 0) {
             level++;
+            if (level == levels.size()) {
+                app.setView(new EndView(app, EndView.Conclusion.WIN, level, score));
+                return;
+            }
             resetBall();
         }
 
@@ -67,6 +70,10 @@ public class GameView extends View {
                 ball.ySpeed *= -1;
             else if (ball.y > CANVAS_SIZE_Y) {
                 lives--;
+                if (lives == 0) {
+                    app.setView(new EndView(app, EndView.Conclusion.LOSE, level, score));
+                    return;
+                }
                 resetBall();
             }
         }

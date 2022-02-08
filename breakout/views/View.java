@@ -1,14 +1,14 @@
 package breakout.views;
 
-import processing.core.PApplet;
+import breakout.Sketch;
 import breakout.views.input.Input;
 import breakout.views.input.TextInput;
 
 public class View {
-    protected PApplet app;
+    protected Sketch app;
     protected Input[] inputs;
 
-    public View(PApplet app, Input[] inputs) {
+    public View(Sketch app, Input[] inputs) {
         this.app = app;
         this.inputs = inputs;
     }
