@@ -2,8 +2,6 @@ package breakout;
 
 import breakout.views.StartView;
 import breakout.views.View;
-import breakout.views.input.Input;
-import breakout.views.input.TextInput;
 import processing.core.PApplet;
 
 public class Sketch extends PApplet {

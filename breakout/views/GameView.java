@@ -25,13 +25,18 @@ public class GameView extends View {
 
     private Ball ball;
 
+    private final PImage background;
+
     public GameView(Sketch app) {
         super(app, null);
 
         initGame();
+        background = app.loadImage("pig.jpg");
     }
 
     public void draw() {
+        app.image(background, 0, 0);
+
         Brick[] bricks = levels.get(level);
         int remainingBricks = 0;
         for (int i = 0; i < bricks.length; i++) {
