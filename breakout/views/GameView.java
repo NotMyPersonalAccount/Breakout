@@ -32,6 +32,7 @@ public class GameView extends View {
 
         initGame();
         background = app.loadImage("pig.jpg");
+        background.resize(CANVAS_SIZE_X, CANVAS_SIZE_Y);
     }
 
     public void draw() {
@@ -86,6 +87,13 @@ public class GameView extends View {
 
         app.fill(0);
         app.rect(app.mouseX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+        app.fill(255);
+        app.textSize(BASE_TEXT_SIZE);
+        app.textAlign(RIGHT, CENTER);
+        app.text("Lives: " + lives, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 4);
+        app.text("Level: " + (level + 1), CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 3);
+        app.text("Score: " + score, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 2);
     }
 
     public void mousePressed() {
@@ -101,31 +109,11 @@ public class GameView extends View {
 
     // initGame (re)starts the game. Game levels and the ball are set up here.
     private void initGame() {
-        Map<String, Integer> commonColors = Map.of(
-                "r", app.color(255, 0, 0),
-                "o", app.color(255, 165, 0),
-                "y", app.color(255, 255, 0),
-                "g", app.color(0, 255, 0),
-                "b", app.color(0, 0, 255),
-                "p", app.color(128, 0, 128)
-        );
+        Map<String, Integer> commonColors = Map.of("r", app.color(255, 0, 0), "o", app.color(255, 165, 0), "y", app.color(255, 255, 0), "g", app.color(0, 255, 0), "b", app.color(0, 0, 255), "p", app.color(128, 0, 128));
 
         levels = new ArrayList<>();
-        levels.add(levelFromStrings(commonColors, 42, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y,
-                "r".repeat(10),
-                "o".repeat(10),
-                "y".repeat(10),
-                "g".repeat(10),
-                "b".repeat(10),
-                "p".repeat(10)
-        ));
-        levels.add(levelFromStrings(commonColors, 480 / 15 - 3 * 2, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y,
-                "r" + " r".repeat(7),
-                "y" + "oy".repeat(7),
-                "g" + "bg".repeat(7),
-                "p" + " p".repeat(7),
-                "roygbp   pbgyor"
-        ));
+        levels.add(levelFromStrings(commonColors, 42, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r".repeat(10), "o".repeat(10), "y".repeat(10), "g".repeat(10), "b".repeat(10), "p".repeat(10)));
+        levels.add(levelFromStrings(commonColors, 480 / 15 - 3 * 2, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r" + " r".repeat(7), "y" + "oy".repeat(7), "g" + "bg".repeat(7), "p" + " p".repeat(7), "roygbp   pbgyor"));
         level = 0;
 
         ball = new Ball(BALL_RADIUS, CANVAS_SIZE_X / 2f, PADDLE_Y - BALL_RADIUS, 0, 0);
