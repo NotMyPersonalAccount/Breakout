@@ -84,8 +84,10 @@ public class GameView extends View {
     }
 
     public void mousePressed() {
-        ball.xSpeed = 5;
-        ball.ySpeed = -3;
+        if (ball.xSpeed == 0 && ball.ySpeed == 0) {
+            ball.xSpeed = 5;
+            ball.ySpeed = -3;
+        }
     }
 
     // initGame (re)starts the game. Game levels and the ball are set up here.
