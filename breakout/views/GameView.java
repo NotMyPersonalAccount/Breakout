@@ -21,6 +21,9 @@ public class GameView extends View {
     private int level = 0;
     private ArrayList<Brick[]> levels;
 
+    private int lives = 3;
+    private int score = 0;
+
     private Ball ball;
 
     public GameView(PApplet app) {
@@ -40,6 +43,7 @@ public class GameView extends View {
                 if (brick.isColliding(ball)) {
                     ball.ySpeed *= -1;
                     bricks[i] = null; //TODO: health
+                    score++;
                 }
                 brick.draw(app);
             }
@@ -62,6 +66,7 @@ public class GameView extends View {
             if (ball.y >= PADDLE_Y && ball.x >= app.mouseX - PADDLE_WIDTH / 2 && ball.x <= app.mouseX + PADDLE_WIDTH / 2)
                 ball.ySpeed *= -1;
             else if (ball.y > CANVAS_SIZE_Y) {
+                lives--;
                 resetBall();
             }
         }
