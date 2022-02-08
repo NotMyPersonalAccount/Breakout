@@ -3,6 +3,7 @@ package breakout.views;
 import breakout.Sketch;
 import breakout.objects.Ball;
 import breakout.objects.Brick;
+import breakout.utils.Collision;
 import processing.core.PImage;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class GameView extends View {
             if (newY < BALL_RADIUS) ball.ySpeed *= -1;
 
             if (newY > PADDLE_Y - BALL_RADIUS) {
-                if (newX > app.mouseX - PADDLE_WIDTH / 2 - BALL_RADIUS && newX < app.mouseX + PADDLE_WIDTH / 2 + BALL_RADIUS) {
+                if (Collision.circleRect(ball.x, ball.y, BALL_RADIUS, newX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
                     ball.ySpeed *= -1;
                 } else {
                     lives--;
@@ -72,7 +73,7 @@ public class GameView extends View {
             if (brick != null) {
                 remainingBricks++;
 
-                if (brick.isColliding(ball)) {
+                if (Collision.circleRect(ball.x, ball.y, ball.radius, brick.x, brick.y, brick.width, brick.height)) {
                     ball.ySpeed *= -1;
                     bricks[i] = null; //TODO: health
                     score++;
