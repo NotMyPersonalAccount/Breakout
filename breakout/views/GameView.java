@@ -38,6 +38,33 @@ public class GameView extends View {
     public void draw() {
         app.image(background, 0, 0);
 
+        if (ball.xSpeed == 0 && ball.ySpeed == 0) {
+            ball.x = app.mouseX;
+        } else {
+            float newX = ball.x + ball.xSpeed;
+            float newY = ball.y + ball.ySpeed;
+
+            if (newX < BALL_RADIUS || newX > CANVAS_SIZE_X - BALL_RADIUS)
+                ball.xSpeed *= -1;
+            if (newY < BALL_RADIUS) ball.ySpeed *= -1;
+
+            if (newY > PADDLE_Y - BALL_RADIUS) {
+                if (newX > app.mouseX - PADDLE_WIDTH / 2 - BALL_RADIUS && newX < app.mouseX + PADDLE_WIDTH / 2 + BALL_RADIUS) {
+                    ball.ySpeed *= -1;
+                } else {
+                    lives--;
+                    if (lives == 0) {
+                        app.setView(new EndView(app, EndView.Conclusion.LOSE, level, score));
+                        return;
+                    }
+                    resetBall();
+                }
+            }
+
+            ball.x = newX;
+            ball.y = newY;
+        }
+
         Brick[] bricks = levels.get(level);
         int remainingBricks = 0;
         for (int i = 0; i < bricks.length; i++) {
@@ -63,26 +90,6 @@ public class GameView extends View {
             resetBall();
         }
 
-        if (ball.xSpeed == 0 && ball.ySpeed == 0) {
-            ball.x = app.mouseX;
-        } else {
-            ball.x += ball.xSpeed;
-            ball.y += ball.ySpeed;
-
-            if (ball.x < 0 || ball.x > CANVAS_SIZE_X) ball.xSpeed *= -1;
-            if (ball.y < 0) ball.ySpeed *= -1;
-
-            if (ball.y >= PADDLE_Y && ball.x >= app.mouseX - PADDLE_WIDTH / 2 && ball.x <= app.mouseX + PADDLE_WIDTH / 2)
-                ball.ySpeed *= -1;
-            else if (ball.y > CANVAS_SIZE_Y) {
-                lives--;
-                if (lives == 0) {
-                    app.setView(new EndView(app, EndView.Conclusion.LOSE, level, score));
-                    return;
-                }
-                resetBall();
-            }
-        }
         ball.draw(app);
 
         app.fill(0);
