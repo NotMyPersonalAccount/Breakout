@@ -3,12 +3,12 @@ package breakout.views;
 import breakout.Sketch;
 import breakout.objects.Ball;
 import breakout.objects.Brick;
+import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-import static breakout.Sketch.CANVAS_SIZE_X;
-import static breakout.Sketch.CANVAS_SIZE_Y;
+import static breakout.Sketch.*;
 
 public class GameView extends View {
     private static final int BALL_RADIUS = 8;
@@ -95,6 +95,10 @@ public class GameView extends View {
         }
     }
 
+    public void keyPressed() {
+        if (app.key == 'p') app.setView(new PauseView(app, this));
+    }
+
     // initGame (re)starts the game. Game levels and the ball are set up here.
     private void initGame() {
         Map<String, Integer> commonColors = Map.of(
@@ -107,15 +111,14 @@ public class GameView extends View {
         );
 
         levels = new ArrayList<>();
-        levels.add(levelFromStrings(commonColors, 42, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r         "));
-/*        levels.add(levelFromStrings(commonColors, 42, 18, 3, 3, MAP_SIZE_X, MAP_SIZE_Y,
+        levels.add(levelFromStrings(commonColors, 42, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y,
                 "r".repeat(10),
                 "o".repeat(10),
                 "y".repeat(10),
                 "g".repeat(10),
                 "b".repeat(10),
                 "p".repeat(10)
-        ));*/
+        ));
         levels.add(levelFromStrings(commonColors, 480 / 15 - 3 * 2, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y,
                 "r" + " r".repeat(7),
                 "y" + "oy".repeat(7),
