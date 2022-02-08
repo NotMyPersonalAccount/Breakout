@@ -50,7 +50,7 @@ public class GameView extends View {
             if (newY < BALL_RADIUS) ball.ySpeed *= -1;
 
             if (newY > PADDLE_Y - BALL_RADIUS) {
-                if (Collision.circleRect(ball.x, ball.y, BALL_RADIUS, newX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
+                if (Collision.circleRect(ball.x, ball.y, BALL_RADIUS, app.mouseX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
                     ball.ySpeed *= -1;
                 } else {
                     lives--;
