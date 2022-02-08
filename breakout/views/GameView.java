@@ -14,7 +14,11 @@ import static breakout.Sketch.*;
 public class GameView extends View {
     private static final int BALL_RADIUS = 8;
 
-    private static final float PADDLE_WIDTH = 100;
+    public static final float BASE_PADDLE_WIDTH = 100;
+    public static final int PADDLE_SIZE_CYCLE_DURATION = (int) (BASE_PADDLE_WIDTH * 15);
+    public static final float PADDLE_SIZE_CYCLE_MIN = 0.65f;
+    private static float PADDLE_WIDTH = BASE_PADDLE_WIDTH;
+
     private static final float PADDLE_HEIGHT = 10;
     private static final float PADDLE_Y = CANVAS_SIZE_Y - PADDLE_HEIGHT;
 
@@ -38,6 +42,13 @@ public class GameView extends View {
 
     public void draw() {
         app.image(background, 0, 0);
+
+        int paddleSizeTime = app.millis() % PADDLE_SIZE_CYCLE_DURATION;
+        if (paddleSizeTime < PADDLE_SIZE_CYCLE_DURATION / 2) {
+            PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + paddleSizeTime / (float) PADDLE_SIZE_CYCLE_DURATION * (1 - PADDLE_SIZE_CYCLE_MIN));
+        } else if (paddleSizeTime > PADDLE_SIZE_CYCLE_DURATION / 2) {
+            PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + (PADDLE_SIZE_CYCLE_DURATION - paddleSizeTime) / (float) PADDLE_SIZE_CYCLE_DURATION * (1 - PADDLE_SIZE_CYCLE_MIN));
+        }
 
         if (ball.xSpeed == 0 && ball.ySpeed == 0) {
             ball.x = app.mouseX;
