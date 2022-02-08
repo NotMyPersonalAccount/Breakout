@@ -19,7 +19,7 @@ public class Brick {
 
     public void draw(PApplet app) {
         app.fill(color);
-        app.rect(x - (sizeX / 2), y, sizeX, sizeY);
+        app.rect(x - (sizeX / 2), y - (sizeY / 2), sizeX, sizeY);
     }
 
     public boolean isColliding(Ball ball) {
