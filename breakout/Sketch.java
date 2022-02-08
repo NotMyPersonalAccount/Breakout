@@ -21,7 +21,9 @@ public class Sketch extends PApplet {
     public void draw() {
         background(255);
 
+        pushMatrix();
         view.draw();
+        popMatrix();
     }
 
     public void mousePressed() {
