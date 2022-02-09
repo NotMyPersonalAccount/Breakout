@@ -43,7 +43,7 @@ public class GameView extends View {
     }
 
     public void draw() {
-        tickGame();
+        if (!tickGame()) return;
 
         app.image(background, 0, 0);
 
@@ -64,8 +64,8 @@ public class GameView extends View {
         app.text("Score: " + score, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 2);
     }
 
-    public void tickGame() {
-        if (app.view != this) return;
+    public boolean tickGame() {
+        if (app.view != this) return true;
 
         paddleX = app.mouseX;
 
@@ -93,7 +93,7 @@ public class GameView extends View {
                     lives--;
                     if (lives == 0) {
                         app.setView(new EndView(app, EndView.Conclusion.LOSE, level, score));
-                        return;
+                        return false;
                     }
                     resetBall();
                 }
@@ -125,10 +125,11 @@ public class GameView extends View {
             level++;
             if (level == levels.size()) {
                 app.setView(new EndView(app, EndView.Conclusion.WIN, level, score));
-                return;
+                return false;
             }
             resetBall();
         }
+        return true;
     }
 
     public void mousePressed() {
