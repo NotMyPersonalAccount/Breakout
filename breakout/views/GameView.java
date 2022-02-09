@@ -151,8 +151,29 @@ public class GameView extends View {
         int margin = CANVAS_SIZE_X / 160;
 
         levels = new ArrayList<>();
-        levels.add(levelFromStrings(commonColors, CANVAS_SIZE_X / 10 - margin * 2, CANVAS_SIZE_Y / 20 - margin * 2, margin, margin, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r".repeat(10), "o".repeat(10), "y".repeat(10), "g".repeat(10), "b".repeat(10), "p".repeat(10)));
-        levels.add(levelFromStrings(commonColors, CANVAS_SIZE_X / 15 - margin * 2, CANVAS_SIZE_Y / 20 - margin * 2, margin, margin, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r" + " r".repeat(7), "y" + "oy".repeat(7), "g" + "bg".repeat(7), "p" + " p".repeat(7), "roygbp   pbgyor"));
+        levels.add(levelFromStrings(commonColors, CANVAS_SIZE_X / 10 - margin * 2, CANVAS_SIZE_Y / 20 - margin * 2, margin, margin, CANVAS_SIZE_X, CANVAS_SIZE_Y,
+                "r".repeat(10),
+                "o" + " ".repeat(8) + "o",
+                "y" + " ".repeat(8) + "y",
+                "g" + " ".repeat(8) + "g",
+                "b" + " ".repeat(8) + "b",
+                "p".repeat(10)
+        ));
+        levels.add(levelFromStrings(commonColors, CANVAS_SIZE_X / 10 - margin * 2, CANVAS_SIZE_Y / 20 - margin * 2, margin, margin, CANVAS_SIZE_X, CANVAS_SIZE_Y,
+                "r".repeat(10),
+                "o".repeat(10),
+                "y".repeat(10),
+                "g".repeat(10),
+                "b".repeat(10),
+                "p".repeat(10)
+        ));
+        levels.add(levelFromStrings(commonColors, CANVAS_SIZE_X / 15 - margin * 2, CANVAS_SIZE_Y / 20 - margin * 2, margin, margin, CANVAS_SIZE_X, CANVAS_SIZE_Y,
+                "r" + " r".repeat(7),
+                "y" + "oy".repeat(7),
+                "g" + "bg".repeat(7),
+                "p" + " p".repeat(7),
+                "roygbp   pbgyor"
+        ));
         level = 0;
 
         ball = new Ball(BALL_RADIUS, CANVAS_SIZE_X / 2f, PADDLE_Y - BALL_RADIUS, 0, 0);
