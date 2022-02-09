@@ -19,6 +19,7 @@ public class PauseView extends View {
                 })
         });
 
+        pausedView.draw();
         this.draw();
         app.noLoop();
     }

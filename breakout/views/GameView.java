@@ -41,7 +41,29 @@ public class GameView extends View {
     }
 
     public void draw() {
+        tickGame();
+
         app.image(background, 0, 0);
+
+        Brick[] bricks = levels.get(level);
+        for (Brick brick : bricks) {
+            if (brick != null) brick.draw(app);
+        }
+        ball.draw(app);
+
+        app.fill(0);
+        app.rect(app.mouseX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+        app.fill(255);
+        app.textSize(BASE_TEXT_SIZE);
+        app.textAlign(RIGHT, CENTER);
+        app.text("Lives: " + lives, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 4);
+        app.text("Level: " + (level + 1), CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 3);
+        app.text("Score: " + score, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 2);
+    }
+
+    public void tickGame() {
+        if (app.view != this) return;
 
         int paddleSizeTime = app.millis() % PADDLE_SIZE_CYCLE_DURATION;
         if (paddleSizeTime < PADDLE_SIZE_CYCLE_DURATION / 2) {
@@ -86,10 +108,12 @@ public class GameView extends View {
 
                 if (Collision.circleRect(ball.x, ball.y, ball.radius, brick.x, brick.y, brick.width, brick.height)) {
                     ball.ySpeed *= -1;
-                    bricks[i] = null; //TODO: health
+                    bricks[i].health--;
+                    if (bricks[i].health <= 0) {
+                        bricks[i] = null;
+                    }
                     score++;
                 }
-                brick.draw(app);
             }
         }
 
@@ -101,18 +125,6 @@ public class GameView extends View {
             }
             resetBall();
         }
-
-        ball.draw(app);
-
-        app.fill(0);
-        app.rect(app.mouseX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
-
-        app.fill(255);
-        app.textSize(BASE_TEXT_SIZE);
-        app.textAlign(RIGHT, CENTER);
-        app.text("Lives: " + lives, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 4);
-        app.text("Level: " + (level + 1), CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 3);
-        app.text("Score: " + score, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 2);
     }
 
     public void mousePressed() {
