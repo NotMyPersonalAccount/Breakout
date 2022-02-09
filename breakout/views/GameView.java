@@ -25,7 +25,7 @@ public class GameView extends View {
     private int level = 0;
     private ArrayList<Brick[]> levels;
 
-    private int lives = 3;
+    private int lives = 9;
     private int score = 0;
 
     private Ball ball;
@@ -205,7 +205,7 @@ public class GameView extends View {
                     int brickType = brickTypes.get(characters[j]);
                     int x = j * trueBrickSizeX + (brickSizeX / 2) + marginX;
                     int y = i * trueBrickSizeY + (brickSizeY / 2) + marginY;
-                    level[i * row.length() + j] = new Brick(x, y, brickSizeX, brickSizeY, brickType);
+                    level[i * row.length() + j] = new Brick(x, y, brickSizeX, brickSizeY, 3, 3, brickType);
                 } catch (NullPointerException ignored) {
                     // No brick at this position
                 }
