@@ -12,14 +12,14 @@ import java.util.Map;
 import static breakout.Sketch.*;
 
 public class GameView extends View {
-    private static final int BALL_RADIUS = 8;
+    private static final int BALL_RADIUS = CANVAS_SIZE_X / 60;
 
-    public static final float BASE_PADDLE_WIDTH = 100;
+    public static final float BASE_PADDLE_WIDTH = CANVAS_SIZE_X / 4.8f;
     public static final int PADDLE_SIZE_CYCLE_DURATION = (int) (BASE_PADDLE_WIDTH * 15);
     public static final float PADDLE_SIZE_CYCLE_MIN = 0.65f;
     private static float PADDLE_WIDTH = BASE_PADDLE_WIDTH;
 
-    private static final float PADDLE_HEIGHT = 10;
+    private static final float PADDLE_HEIGHT = CANVAS_SIZE_X / 48f;
     private static final float PADDLE_Y = CANVAS_SIZE_Y - PADDLE_HEIGHT;
 
     private int level = 0;
@@ -128,11 +128,14 @@ public class GameView extends View {
 
     // initGame (re)starts the game. Game levels and the ball are set up here.
     private void initGame() {
+        app.colorMode(RGB);
         Map<String, Integer> commonColors = Map.of("r", app.color(255, 0, 0), "o", app.color(255, 165, 0), "y", app.color(255, 255, 0), "g", app.color(0, 255, 0), "b", app.color(0, 0, 255), "p", app.color(128, 0, 128));
 
+        int margin = CANVAS_SIZE_X / 160;
+
         levels = new ArrayList<>();
-        levels.add(levelFromStrings(commonColors, 42, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r".repeat(10), "o".repeat(10), "y".repeat(10), "g".repeat(10), "b".repeat(10), "p".repeat(10)));
-        levels.add(levelFromStrings(commonColors, 480 / 15 - 3 * 2, 18, 3, 3, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r" + " r".repeat(7), "y" + "oy".repeat(7), "g" + "bg".repeat(7), "p" + " p".repeat(7), "roygbp   pbgyor"));
+        levels.add(levelFromStrings(commonColors, CANVAS_SIZE_X / 10 - margin * 2, CANVAS_SIZE_Y / 20 - margin * 2, margin, margin, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r".repeat(10), "o".repeat(10), "y".repeat(10), "g".repeat(10), "b".repeat(10), "p".repeat(10)));
+        levels.add(levelFromStrings(commonColors, CANVAS_SIZE_X / 15 - margin * 2, CANVAS_SIZE_Y / 20 - margin * 2, margin, margin, CANVAS_SIZE_X, CANVAS_SIZE_Y, "r" + " r".repeat(7), "y" + "oy".repeat(7), "g" + "bg".repeat(7), "p" + " p".repeat(7), "roygbp   pbgyor"));
         level = 0;
 
         ball = new Ball(BALL_RADIUS, CANVAS_SIZE_X / 2f, PADDLE_Y - BALL_RADIUS, 0, 0);

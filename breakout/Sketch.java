@@ -16,6 +16,10 @@ public class Sketch extends PApplet {
         size(CANVAS_SIZE_X, CANVAS_SIZE_Y);
     }
 
+    public void setup() {
+        surface.setTitle("Breakout");
+    }
+
     public void draw() {
         background(255);
 
