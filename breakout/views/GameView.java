@@ -30,6 +30,8 @@ public class GameView extends View {
 
     private Ball ball;
 
+    private float paddleX;
+
     private final PImage background;
 
     public GameView(Sketch app) {
@@ -52,7 +54,7 @@ public class GameView extends View {
         ball.draw(app);
 
         app.fill(0);
-        app.rect(app.mouseX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+        app.rect(paddleX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
         app.fill(255);
         app.textSize(BASE_TEXT_SIZE);
@@ -65,6 +67,8 @@ public class GameView extends View {
     public void tickGame() {
         if (app.view != this) return;
 
+        paddleX = app.mouseX;
+
         int paddleSizeTime = app.millis() % PADDLE_SIZE_CYCLE_DURATION;
         if (paddleSizeTime < PADDLE_SIZE_CYCLE_DURATION / 2) {
             PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + paddleSizeTime / (float) PADDLE_SIZE_CYCLE_DURATION * (1 - PADDLE_SIZE_CYCLE_MIN));
@@ -73,7 +77,7 @@ public class GameView extends View {
         }
 
         if (ball.xSpeed == 0 && ball.ySpeed == 0) {
-            ball.x = app.mouseX;
+            ball.x = paddleX;
         } else {
             float newX = ball.x + ball.xSpeed;
             float newY = ball.y + ball.ySpeed;
@@ -83,7 +87,7 @@ public class GameView extends View {
             if (newY < BALL_RADIUS) ball.ySpeed *= -1;
 
             if (newY > PADDLE_Y - BALL_RADIUS) {
-                if (Collision.circleRect(ball.x, ball.y, BALL_RADIUS, app.mouseX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
+                if (Collision.circleRect(ball.x, ball.y, BALL_RADIUS, paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
                     ball.ySpeed *= -1;
                 } else {
                     lives--;
