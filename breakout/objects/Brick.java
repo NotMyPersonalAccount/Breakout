@@ -36,5 +36,6 @@ public class Brick {
             app.textSize(BASE_TEXT_SIZE / 1.5f);
             app.text((int) health, x, y);
         }
+        app.colorMode(RGB);
     }
 }

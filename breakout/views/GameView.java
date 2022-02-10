@@ -65,16 +65,23 @@ public class GameView extends View {
         app.fill(0);
         app.rect(paddleX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
+        app.textSize(BASE_TEXT_SIZE);
         updateSimulationInstance();
+
         for (int i = 0; i < 500; i++) {
             float oldBallX = simulation.ball.x;
             float oldBallY = simulation.ball.y;
             simulation.tickGame(true);
             app.line(oldBallX, oldBallY, simulation.ball.x, simulation.ball.y);
+            if (simulation.ball.xSpeed == 0 && simulation.ball.ySpeed == 0 && (ball.xSpeed != 0 || ball.ySpeed != 0)) {
+                app.fill(255, 0, 0);
+                app.textAlign(CENTER, CENTER);
+                app.text("X", simulation.ball.x, simulation.ball.y);
+                break;
+            }
         }
 
         app.fill(255);
-        app.textSize(BASE_TEXT_SIZE);
         app.textAlign(RIGHT, CENTER);
         app.text("Lives: " + lives, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 4);
         app.text("Level: " + (level + 1), CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 3);
@@ -182,7 +189,6 @@ public class GameView extends View {
 
     // initGame (re)starts the game. Game levels and the ball are set up here.
     private void initGame() {
-        app.colorMode(RGB);
         Map<String, Integer> commonColors = Map.of("r", app.color(255, 0, 0), "o", app.color(255, 165, 0), "y", app.color(255, 255, 0), "g", app.color(0, 255, 0), "b", app.color(0, 0, 255), "p", app.color(128, 0, 128));
 
         int margin = CANVAS_SIZE_X / 160;
