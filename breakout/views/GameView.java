@@ -14,9 +14,9 @@ import static breakout.Sketch.*;
 public class GameView extends View {
     private static final int BALL_RADIUS = CANVAS_SIZE_X / 60;
 
-    public static final float BASE_PADDLE_WIDTH = CANVAS_SIZE_X / 4.8f;
-    public static final int PADDLE_SIZE_CYCLE_DURATION = (int) (BASE_PADDLE_WIDTH * 15);
-    public static final float PADDLE_SIZE_CYCLE_MIN = 0.65f;
+    private static final float BASE_PADDLE_WIDTH = CANVAS_SIZE_X / 4.8f;
+    private static final int PADDLE_SIZE_CYCLE_DURATION = (int) (BASE_PADDLE_WIDTH * 15);
+    private static final float PADDLE_SIZE_CYCLE_MIN = 0.65f;
     private static float PADDLE_WIDTH = BASE_PADDLE_WIDTH;
 
     private static final float PADDLE_HEIGHT = CANVAS_SIZE_X / 48f;
@@ -65,7 +65,7 @@ public class GameView extends View {
     }
 
     // tickGame ticks the game physics. It returns true if the game should be redrawn.
-    public boolean tickGame() {
+    private boolean tickGame() {
         // Don't tick if GameView is not the active view.
         if (app.view != this) return true;
 
