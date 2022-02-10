@@ -83,10 +83,11 @@ public class GameView extends View {
 
     // tickGame ticks the game physics. It returns true if the game should be redrawn.
     private boolean tickGame(boolean simulate) {
-        // Don't tick if GameView is not the active view.
-        if (app.view != this && !simulate) return true;
-
-        paddleX = app.mouseX;
+        if (!simulate) {
+            // Don't tick if GameView is not the active view.
+            if (app.view != this) return true;
+            paddleX = app.mouseX;
+        }
 
         // Change paddle width over time from 100% to PADDLE_SIZE_CYCLE_MIN and back over PADDLE_SIZE_CYCLE_DURATION milliseconds.
         int paddleSizeTime = app.millis() % PADDLE_SIZE_CYCLE_DURATION;
@@ -255,6 +256,7 @@ public class GameView extends View {
     // can break the simulation.
     private void updateSimulationInstance() {
         simulation.lives = MAX_INT;
+        simulation.level = 0;
         simulation.ball.x = ball.x;
         simulation.ball.y = ball.y;
         simulation.ball.xSpeed = ball.xSpeed;
@@ -262,6 +264,10 @@ public class GameView extends View {
         simulation.paddleX = paddleX;
         Brick[] bricks = levels.get(level);
         Brick[] simulatedBricks = simulation.levels.size() == 0 ? new Brick[bricks.length] : simulation.levels.get(0);
+        if (simulatedBricks.length != bricks.length) {
+            simulatedBricks = new Brick[bricks.length];
+            simulation.levels.set(0, simulatedBricks);
+        }
         for (int i = 0; i < bricks.length; i++) {
             Brick brick = bricks[i];
             Brick simulatedBrick = simulatedBricks[i];
