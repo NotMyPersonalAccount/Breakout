@@ -5,7 +5,6 @@ import processing.core.PApplet;
 import static processing.core.PConstants.CENTER;
 
 public class BasicButton implements Input {
-
     protected PApplet app;
     protected String text;
     protected float textSize;

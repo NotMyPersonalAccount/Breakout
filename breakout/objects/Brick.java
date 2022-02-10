@@ -26,9 +26,11 @@ public class Brick {
 
     public void draw(PApplet app) {
         app.colorMode(app.HSB);
+        // Brick color is based on health. Lower health results in a less saturated color.
         app.fill(app.hue(color), app.saturation(color) * (health / maxHealth), app.brightness(color));
         app.rect(x - width / 2, y - height / 2, width, height);
         app.fill(0);
+        // Only display health text if the brick has been damaged.
         if (health != maxHealth) {
             app.textAlign(CENTER, CENTER);
             app.textSize(BASE_TEXT_SIZE / 1.5f);

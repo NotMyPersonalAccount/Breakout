@@ -64,11 +64,14 @@ public class GameView extends View {
         app.text("Score: " + score, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 2);
     }
 
+    // tickGame ticks the game physics. It returns true if the game should be redrawn.
     public boolean tickGame() {
+        // Don't tick if GameView is not the active view.
         if (app.view != this) return true;
 
         paddleX = app.mouseX;
 
+        // Change paddle width over time from 100% to PADDLE_SIZE_CYCLE_MIN and back over PADDLE_SIZE_CYCLE_DURATION milliseconds.
         int paddleSizeTime = app.millis() % PADDLE_SIZE_CYCLE_DURATION;
         if (paddleSizeTime < PADDLE_SIZE_CYCLE_DURATION / 2) {
             PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + paddleSizeTime / (float) PADDLE_SIZE_CYCLE_DURATION * (1 - PADDLE_SIZE_CYCLE_MIN));
@@ -76,17 +79,23 @@ public class GameView extends View {
             PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + (PADDLE_SIZE_CYCLE_DURATION - paddleSizeTime) / (float) PADDLE_SIZE_CYCLE_DURATION * (1 - PADDLE_SIZE_CYCLE_MIN));
         }
 
+        // Set the ball's position to the paddle's position if not moving.
         if (ball.xSpeed == 0 && ball.ySpeed == 0) {
             ball.x = paddleX;
         } else {
+            // Calculate the ball's new position based off of speed.
             float newX = ball.x + ball.xSpeed;
             float newY = ball.y + ball.ySpeed;
 
+            // Check if hitting the left or right walls.
             if (newX < ball.radius || newX > CANVAS_SIZE_X - ball.radius)
                 ball.xSpeed *= -1;
+            // Check if hitting the top wall.
             if (newY < ball.radius) ball.ySpeed *= -1;
 
+            // Check if ball is below the height of the paddle.
             if (newY > PADDLE_Y - ball.radius) {
+                // Check if the ball is colliding with paddle.
                 if (Collision.circleRect(ball.x, ball.y, ball.radius, paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
                     ball.ySpeed *= -1;
                 } else {
@@ -99,20 +108,27 @@ public class GameView extends View {
                 }
             }
 
+            // Set the ball's new position.
             ball.x = newX;
             ball.y = newY;
         }
 
+        // Get bricks of the current level.
         Brick[] bricks = levels.get(level);
         int remainingBricks = 0;
+        // Iterate over all bricks.
         for (int i = 0; i < bricks.length; i++) {
             Brick brick = bricks[i];
+            // Check if the brick is null.
             if (brick != null) {
                 remainingBricks++;
 
+                // Check if the ball is colliding with the brick.
                 if (Collision.circleRect(ball.x, ball.y, ball.radius, brick.x, brick.y, brick.width, brick.height)) {
                     ball.ySpeed *= -1;
+                    // Decrease the brick's health.
                     bricks[i].health--;
+                    // Check if the brick is destroyed.
                     if (bricks[i].health <= 0) {
                         bricks[i] = null;
                     }
@@ -121,8 +137,10 @@ public class GameView extends View {
             }
         }
 
+        // If no bricks are remaining, go to the next level.
         if (remainingBricks == 0) {
             level++;
+            // If the current level is the last level, go to the end view.
             if (level == levels.size()) {
                 app.setView(new EndView(app, EndView.Conclusion.WIN, level, score));
                 return false;
@@ -133,6 +151,7 @@ public class GameView extends View {
     }
 
     public void mousePressed() {
+        // Check that the ball is not already moving.
         if (ball.xSpeed == 0 && ball.ySpeed == 0) {
             ball.xSpeed = 5;
             ball.ySpeed = -3;
