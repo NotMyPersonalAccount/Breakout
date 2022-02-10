@@ -82,12 +82,12 @@ public class GameView extends View {
             float newX = ball.x + ball.xSpeed;
             float newY = ball.y + ball.ySpeed;
 
-            if (newX < BALL_RADIUS || newX > CANVAS_SIZE_X - BALL_RADIUS)
+            if (newX < ball.radius || newX > CANVAS_SIZE_X - ball.radius)
                 ball.xSpeed *= -1;
-            if (newY < BALL_RADIUS) ball.ySpeed *= -1;
+            if (newY < ball.radius) ball.ySpeed *= -1;
 
-            if (newY > PADDLE_Y - BALL_RADIUS) {
-                if (Collision.circleRect(ball.x, ball.y, BALL_RADIUS, paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
+            if (newY > PADDLE_Y - ball.radius) {
+                if (Collision.circleRect(ball.x, ball.y, ball.radius, paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
                     ball.ySpeed *= -1;
                 } else {
                     lives--;
@@ -181,7 +181,7 @@ public class GameView extends View {
 
     private void resetBall() {
         ball.xSpeed = ball.ySpeed = 0;
-        ball.y = PADDLE_Y - BALL_RADIUS;
+        ball.y = PADDLE_Y - ball.radius;
     }
 
     // levelFromStrings produces a level by interpreting passed strings as rows. Characters represent different colored
