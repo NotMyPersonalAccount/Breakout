@@ -11,8 +11,8 @@ public class Brick {
     public final float width;
     public final float height;
     public float health;
-    public float maxHealth;
-    private final int color;
+    public final float maxHealth;
+    public final int color;
 
     public Brick(float x, float y, float width, float height, float health, float maxHealth, int color) {
         this.x = x;

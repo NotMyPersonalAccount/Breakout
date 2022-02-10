@@ -34,16 +34,25 @@ public class GameView extends View {
 
     private final PImage background;
 
+    private GameView simulation;
+
     public GameView(Sketch app) {
+        this(app, false);
+    }
+
+    public GameView(Sketch app, boolean simulation) {
         super(app, null);
 
         initGame();
         background = app.loadImage("pig.jpg");
         background.resize(CANVAS_SIZE_X, CANVAS_SIZE_Y);
+        if (!simulation) {
+            this.simulation = new GameView(app, true);
+        }
     }
 
     public void draw() {
-        if (!tickGame()) return;
+        if (!tickGame(false)) return;
 
         app.image(background, 0, 0);
 
@@ -56,6 +65,14 @@ public class GameView extends View {
         app.fill(0);
         app.rect(paddleX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
+        updateSimulationInstance();
+        for (int i = 0; i < 500; i++) {
+            float oldBallX = simulation.ball.x;
+            float oldBallY = simulation.ball.y;
+            simulation.tickGame(true);
+            app.line(oldBallX, oldBallY, simulation.ball.x, simulation.ball.y);
+        }
+
         app.fill(255);
         app.textSize(BASE_TEXT_SIZE);
         app.textAlign(RIGHT, CENTER);
@@ -65,9 +82,9 @@ public class GameView extends View {
     }
 
     // tickGame ticks the game physics. It returns true if the game should be redrawn.
-    private boolean tickGame() {
+    private boolean tickGame(boolean simulate) {
         // Don't tick if GameView is not the active view.
-        if (app.view != this) return true;
+        if (app.view != this && !simulate) return true;
 
         paddleX = app.mouseX;
 
@@ -231,5 +248,38 @@ public class GameView extends View {
             }
         }
         return level;
+    }
+
+    // updateSimulationInstance updates a clone of the game instance with all vital information for simulating the
+    // future ball path. This is not particularly ideal, but the tickGame method includes unrelated core logic that
+    // can break the simulation.
+    private void updateSimulationInstance() {
+        simulation.lives = MAX_INT;
+        simulation.ball.x = ball.x;
+        simulation.ball.y = ball.y;
+        simulation.ball.xSpeed = ball.xSpeed;
+        simulation.ball.ySpeed = ball.ySpeed;
+        simulation.paddleX = paddleX;
+        Brick[] bricks = levels.get(level);
+        Brick[] simulatedBricks = simulation.levels.size() == 0 ? new Brick[bricks.length] : simulation.levels.get(0);
+        for (int i = 0; i < bricks.length; i++) {
+            Brick brick = bricks[i];
+            Brick simulatedBrick = simulatedBricks[i];
+            if (brick != null) {
+                if (simulatedBrick == null) {
+                    simulatedBricks[i] = new Brick(brick.x, brick.y, brick.width, brick.height, brick.health, brick.maxHealth, brick.color);
+                } else {
+                    simulatedBrick.health = brick.health;
+                }
+            } else {
+                if (simulatedBrick != null) {
+                    simulatedBricks[i] = null;
+                }
+            }
+        }
+        if (simulation.levels.size() == 0) {
+            simulation.levels = new ArrayList<>();
+            simulation.levels.add(simulatedBricks);
+        }
     }
 }
