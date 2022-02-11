@@ -27,9 +27,12 @@ public class BasicButton implements Input {
         app.textAlign(CENTER, CENTER);
         app.textSize(textSize);
 
-        app.fill(255);
+        app.fill(255, 255, 255, 160);
+        app.stroke(225);
         app.rect(x - width / 2 - 5, y - textSize / 2 - 5, width + 10, textSize + 10, 5);
-        app.fill(0);
+        app.stroke(0);
+
+        app.fill(255);
         app.text(text, x, y);
     }
 

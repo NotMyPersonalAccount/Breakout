@@ -32,8 +32,6 @@ public class GameView extends View {
 
     private float paddleX;
 
-    private final PImage background;
-
     private GameView simulation;
 
     public GameView(Sketch app) {
@@ -44,8 +42,6 @@ public class GameView extends View {
         super(app, null);
 
         initGame();
-        background = app.loadImage("pig.jpg");
-        background.resize(CANVAS_SIZE_X, CANVAS_SIZE_Y);
         if (!simulation) {
             this.simulation = new GameView(app, true);
         }
@@ -54,9 +50,6 @@ public class GameView extends View {
     public void draw() {
         // Tick the game. Do not continue by drawing if tickGame method returns false.
         if (!tickGame(false)) return;
-
-        // Draw the background.
-        app.image(background, 0, 0);
 
         // Get bricks of the current level.
         Brick[] bricks = levels.get(level);

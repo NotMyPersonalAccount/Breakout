@@ -21,11 +21,16 @@ public class ConfirmationView extends View {
 
     public void draw() {
         previousView.draw();
-        app.fill(255);
+
+        app.fill(255, 255, 255, 128);
+        app.stroke(255);
         app.rect(CANVAS_SIZE_X / 6f, CANVAS_SIZE_Y / 10f * 3, CANVAS_SIZE_X / 1.5f, CANVAS_SIZE_X / 2.5f, 5);
-        app.fill(0);
+        app.stroke(0);
+
+        app.fill(255);
         app.textAlign(LEFT);
         app.text(message, CANVAS_SIZE_X / 6f + BASE_TEXT_SIZE, CANVAS_SIZE_Y / 10f * 3 + BASE_TEXT_SIZE * 2);
+
         super.draw();
     }
 }
