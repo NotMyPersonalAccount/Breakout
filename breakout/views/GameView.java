@@ -119,9 +119,9 @@ public class GameView extends View {
         // Change paddle width over time from 100% to PADDLE_SIZE_CYCLE_MIN and back over PADDLE_SIZE_CYCLE_DURATION milliseconds.
         int paddleSizeTime = app.millis() % PADDLE_SIZE_CYCLE_DURATION;
         if (paddleSizeTime < PADDLE_SIZE_CYCLE_DURATION / 2) {
-            PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + paddleSizeTime / (float) PADDLE_SIZE_CYCLE_DURATION * (1 - PADDLE_SIZE_CYCLE_MIN));
+            PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + (1 - PADDLE_SIZE_CYCLE_MIN) * (paddleSizeTime / (PADDLE_SIZE_CYCLE_DURATION / 2f)));
         } else if (paddleSizeTime > PADDLE_SIZE_CYCLE_DURATION / 2) {
-            PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + (PADDLE_SIZE_CYCLE_DURATION - paddleSizeTime) / (float) PADDLE_SIZE_CYCLE_DURATION * (1 - PADDLE_SIZE_CYCLE_MIN));
+            PADDLE_WIDTH = BASE_PADDLE_WIDTH * (PADDLE_SIZE_CYCLE_MIN + (1 - PADDLE_SIZE_CYCLE_MIN) * ((PADDLE_SIZE_CYCLE_DURATION - paddleSizeTime) / (PADDLE_SIZE_CYCLE_DURATION / 2f)));
         }
 
         // Set the ball's position to the paddle's position if not moving.
