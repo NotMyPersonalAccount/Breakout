@@ -12,7 +12,7 @@ import java.util.Map;
 import static breakout.Sketch.*;
 
 public class GameView extends View {
-    private static final int BALL_RADIUS = CANVAS_SIZE_X / 60;
+    private static final int BALL_RADIUS = CANVAS_SIZE_X / 48;
 
     private static final float BASE_PADDLE_WIDTH = CANVAS_SIZE_X / 4.8f;
     private static final int PADDLE_SIZE_CYCLE_DURATION = (int) (BASE_PADDLE_WIDTH * 15);
@@ -198,8 +198,8 @@ public class GameView extends View {
     public void mousePressed() {
         // Check that the ball is not already moving.
         if (ball.xSpeed == 0 && ball.ySpeed == 0) {
-            ball.xSpeed = 5;
-            ball.ySpeed = -3;
+            ball.xSpeed = 7;
+            ball.ySpeed = -5;
         }
     }
 
