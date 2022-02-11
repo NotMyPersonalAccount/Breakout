@@ -52,35 +52,55 @@ public class GameView extends View {
     }
 
     public void draw() {
+        // Tick the game. Do not continue by drawing if tickGame method returns false.
         if (!tickGame(false)) return;
 
+        // Draw the background.
         app.image(background, 0, 0);
 
+        // Get bricks of the current level.
         Brick[] bricks = levels.get(level);
+        // Iterate over all bricks.
         for (Brick brick : bricks) {
+            // Draw the brick if it exists.
             if (brick != null) brick.draw(app);
         }
+        // Draw the ball.
         ball.draw(app);
 
+        // Draw the paddle.
         app.fill(0);
         app.rect(paddleX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
+        // Update the simulated game instance for showing future ball path.
         app.textSize(BASE_TEXT_SIZE);
         updateSimulationInstance();
 
-        for (int i = 0; i < 500; i++) {
+        // Simulate and draw the next 1000 ticks.
+        for (int i = 0; i < 1000; i++) {
+            // Store the current simulated position and speed.
             float oldBallX = simulation.ball.x;
             float oldBallY = simulation.ball.y;
+            float oldBallXSpeed = simulation.ball.xSpeed;
+            float oldBallYSpeed = simulation.ball.ySpeed;
+            // Simulate the next tick.
             simulation.tickGame(true);
+            // Draw a line from the old simulated position to the new simulated position.
             app.line(oldBallX, oldBallY, simulation.ball.x, simulation.ball.y);
+            app.textAlign(CENTER, CENTER);
             if (simulation.ball.xSpeed == 0 && simulation.ball.ySpeed == 0 && (ball.xSpeed != 0 || ball.ySpeed != 0)) {
+                // Draw a red X at the simulated position if no longer moving; out of bounds.
                 app.fill(255, 0, 0);
-                app.textAlign(CENTER, CENTER);
                 app.text("X", simulation.ball.x, simulation.ball.y);
-                break;
+                break; // Do not continue simulating if bounds reached.
+            } else if (oldBallXSpeed != simulation.ball.xSpeed || oldBallYSpeed != simulation.ball.ySpeed) {
+                // Draw a green Y at the simulated position if the speed or direction changes.
+                app.fill(0, 255, 0);
+                app.text("Y", simulation.ball.x, simulation.ball.y);
             }
         }
 
+        // Draw core game information; lives, levels, & score.
         app.fill(255);
         app.textAlign(RIGHT, CENTER);
         app.text("Lives: " + lives, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 4);
@@ -222,6 +242,7 @@ public class GameView extends View {
         ball = new Ball(BALL_RADIUS, CANVAS_SIZE_X / 2f, PADDLE_Y - BALL_RADIUS, 0, 0);
     }
 
+    // resetBall places the ball back on the paddle by setting the y position and resetting the ball's speed to zero.
     private void resetBall() {
         ball.xSpeed = ball.ySpeed = 0;
         ball.y = PADDLE_Y - ball.radius;
