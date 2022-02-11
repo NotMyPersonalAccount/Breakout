@@ -22,7 +22,7 @@ public class StartView extends View {
         app.textSize(BASE_TEXT_SIZE * 4);
         app.textAlign(CENTER, CENTER);
 
-        app.fill(255, 255, 255, 128);
+        app.fill(255, 255, 255, 96);
         app.noStroke();
         app.rect(CANVAS_SIZE_X / 2f - app.textWidth(title) * 1.0625f / 2, CANVAS_SIZE_Y / 2f - BASE_TEXT_SIZE * 3, app.textWidth(title) * 1.0625f, BASE_TEXT_SIZE * 4, 5);
         app.stroke(0);

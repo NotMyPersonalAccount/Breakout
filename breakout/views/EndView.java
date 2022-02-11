@@ -23,6 +23,12 @@ public class EndView extends View {
     public void draw() {
         super.draw();
 
+        app.fill(255, 255, 255, 96);
+        app.noStroke();
+        app.rect(CANVAS_SIZE_X / 2f - BASE_TEXT_SIZE * 6, BASE_TEXT_SIZE * 4, BASE_TEXT_SIZE * 12, BASE_TEXT_SIZE * 10, 5);
+        app.stroke(0);
+
+        app.fill(255);
         app.textAlign(CENTER, CENTER);
 
         app.textSize(BASE_TEXT_SIZE * 2);

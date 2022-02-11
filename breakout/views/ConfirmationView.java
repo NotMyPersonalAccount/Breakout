@@ -22,8 +22,8 @@ public class ConfirmationView extends View {
     public void draw() {
         previousView.draw();
 
-        app.fill(255, 255, 255, 128);
-        app.stroke(255);
+        app.fill(255, 255, 255, 96);
+        app.noStroke();
         app.rect(CANVAS_SIZE_X / 6f, CANVAS_SIZE_Y / 10f * 3, CANVAS_SIZE_X / 1.5f, CANVAS_SIZE_X / 2.5f, 5);
         app.stroke(0);
 
