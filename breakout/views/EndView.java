@@ -1,7 +1,7 @@
 package breakout.views;
 
 import breakout.Sketch;
-import breakout.views.input.BasicButton;
+import breakout.views.input.Button;
 import breakout.views.input.Input;
 
 import static breakout.Sketch.*;
@@ -12,7 +12,7 @@ public class EndView extends View {
     private final int score;
 
     public EndView(Sketch app, Conclusion conclusion, int level, int score) {
-        super(app, new Input[]{new BasicButton(app, "Play Again", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 8, CANVAS_SIZE_X / 2f, BASE_TEXT_SIZE * 11, () -> {
+        super(app, new Input[]{new Button(app, "Play Again", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 8, CANVAS_SIZE_X / 2f, BASE_TEXT_SIZE * 11, () -> {
             app.setView(new GameView(app));
         })});
         this.conclusion = conclusion;

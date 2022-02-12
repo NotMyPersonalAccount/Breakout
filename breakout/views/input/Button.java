@@ -4,7 +4,7 @@ import processing.core.PApplet;
 
 import static processing.core.PConstants.CENTER;
 
-public class BasicButton implements Input {
+public class Button implements Input {
     protected PApplet app;
     protected String text;
     protected float textSize;
@@ -13,7 +13,7 @@ public class BasicButton implements Input {
     protected float y;
     protected Runnable callback;
 
-    public BasicButton(PApplet app, String text, float textSize, float width, float x, float y, Runnable callback) {
+    public Button(PApplet app, String text, float textSize, float width, float x, float y, Runnable callback) {
         this.app = app;
         this.text = text;
         this.textSize = textSize;

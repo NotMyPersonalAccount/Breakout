@@ -1,7 +1,7 @@
 package breakout.views;
 
 import breakout.Sketch;
-import breakout.views.input.BasicButton;
+import breakout.views.input.Button;
 import breakout.views.input.Input;
 
 import static breakout.Sketch.*;
@@ -12,8 +12,8 @@ public class ConfirmationView extends View {
 
     public ConfirmationView(Sketch app,  View previousView, String message, Runnable onConfirm, Runnable onCancel) {
         super(app, new Input[]{
-                new BasicButton(app, "Confirm", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 4, CANVAS_SIZE_X / 2f + BASE_TEXT_SIZE * 4, CANVAS_SIZE_X / 2f + BASE_TEXT_SIZE * 2, onConfirm),
-                new BasicButton(app, "Cancel", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 4, CANVAS_SIZE_X / 2f - BASE_TEXT_SIZE, CANVAS_SIZE_X / 2f + BASE_TEXT_SIZE * 2, onCancel)
+                new Button(app, "Confirm", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 4, CANVAS_SIZE_X / 2f + BASE_TEXT_SIZE * 4, CANVAS_SIZE_X / 2f + BASE_TEXT_SIZE * 2, onConfirm),
+                new Button(app, "Cancel", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 4, CANVAS_SIZE_X / 2f - BASE_TEXT_SIZE, CANVAS_SIZE_X / 2f + BASE_TEXT_SIZE * 2, onCancel)
         });
         this.previousView = previousView;
         this.message = message;
