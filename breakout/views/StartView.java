@@ -9,9 +9,7 @@ import static breakout.Sketch.*;
 public class StartView extends View {
     public StartView(Sketch app) {
         super(app, new Input[]{
-                new Button(app, "Start", BASE_TEXT_SIZE, 200, CANVAS_SIZE_X / 2f, CANVAS_SIZE_Y / 2f + BASE_TEXT_SIZE * 2, () -> {
-                    app.setView(new GameView(app));
-                })
+                new Button(app, "Start", BASE_TEXT_SIZE, 200, CANVAS_SIZE_X / 2f, CANVAS_SIZE_Y / 2f + BASE_TEXT_SIZE * 2, () -> app.setView(new GameView(app)))
         });
     }
 

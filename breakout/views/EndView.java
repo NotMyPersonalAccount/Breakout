@@ -12,9 +12,7 @@ public class EndView extends View {
     private final int score;
 
     public EndView(Sketch app, Conclusion conclusion, int level, int score) {
-        super(app, new Input[]{new Button(app, "Play Again", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 8, CANVAS_SIZE_X / 2f, BASE_TEXT_SIZE * 11, () -> {
-            app.setView(new GameView(app));
-        })});
+        super(app, new Input[]{new Button(app, "Play Again", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 8, CANVAS_SIZE_X / 2f, BASE_TEXT_SIZE * 11, () -> app.setView(new GameView(app)))});
         this.conclusion = conclusion;
         this.level = level;
         this.score = score;
