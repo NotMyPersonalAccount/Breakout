@@ -4,7 +4,7 @@ import breakout.Sketch;
 import breakout.objects.Ball;
 import breakout.objects.Brick;
 import breakout.utils.Collision;
-import processing.core.PImage;
+import breakout.views.components.*;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class GameView extends View {
     private int level = 0;
     private ArrayList<Brick[]> levels;
 
-    private int lives = 9;
+    private int lives = 1;
     private int score = 0;
 
     private Ball ball;
@@ -41,6 +41,14 @@ public class GameView extends View {
     public GameView(Sketch app, boolean simulation) {
         super(app, null);
 
+        this.components = new Component[]{new HorizontalContainer.Builder(app).setAlignment(ComponentAlignment.Y.BOTTOM).withComponents(
+                new VerticalContainer.Builder(app).setAlignment(ComponentAlignment.X.RIGHT).withComponents(
+                        new Text.Builder(app).setText("Test").build(),
+                        new Text.Builder(app).setText("Test").build(),
+                        new Text.Builder(app).setText("Test").build()
+                ).build()
+        ).build()};
+
         initGame();
         if (!simulation) {
             this.simulation = new GameView(app, true);
@@ -50,6 +58,8 @@ public class GameView extends View {
     public void draw() {
         // Tick the game. Do not continue by drawing if tickGame method returns false.
         if (!tickGame(false)) return;
+
+        app.stroke(0);
 
         // Get bricks of the current level.
         Brick[] bricks = levels.get(level);
@@ -99,6 +109,7 @@ public class GameView extends View {
         app.text("Lives: " + lives, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 4);
         app.text("Level: " + (level + 1), CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 3);
         app.text("Score: " + score, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 2);
+        super.draw();
     }
 
     // tickGame ticks the game physics. It returns true if the game should be redrawn.

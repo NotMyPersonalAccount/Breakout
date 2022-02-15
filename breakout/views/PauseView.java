@@ -1,19 +1,18 @@
 package breakout.views;
 
 import breakout.Sketch;
-import breakout.views.input.Button;
-import breakout.views.input.Input;
-
-import static breakout.Sketch.*;
+import breakout.views.components.Button;
+import breakout.views.components.Component;
+import breakout.views.components.VerticalContainer;
 
 public class PauseView extends View {
     private final View pausedView;
 
     public PauseView(Sketch app, View pausedView) {
-        super(app, new Input[]{
-                new Button(app, "Resume", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 8, CANVAS_SIZE_X / 2f, CANVAS_SIZE_Y / 2f - BASE_TEXT_SIZE, () -> app.setView(pausedView)),
-                new Button(app, "Restart", BASE_TEXT_SIZE, BASE_TEXT_SIZE * 8, CANVAS_SIZE_X / 2f, CANVAS_SIZE_Y / 2f + BASE_TEXT_SIZE, () -> app.setView(new ConfirmationView(app, pausedView, "Are you sure you would\nlike to restart?", () -> app.setView(new GameView(app)), () -> app.setView(new PauseView(app, pausedView)))))
-        });
+        super(app, new Component[]{new VerticalContainer.Builder(app).setBackgroundColor(app.color(255, 255, 255, 96)).setBorderColor(app.color(255)).withComponents(
+                new Button.Builder(app).setText("Resume").setOnClick(() -> app.setView(pausedView)).build(),
+                new Button.Builder(app).setText("Restart").setOnClick(() -> app.setView(new ConfirmationView(app, pausedView, "Are you sure you would like to restart?", () -> app.setView(new GameView(app)), () -> app.setView(new PauseView(app, pausedView))))).build()
+        ).build()});
         this.pausedView = pausedView;
     }
 
