@@ -20,7 +20,7 @@ public class Button extends Component.Base {
     }
 
     public void draw() {
-        app.fill(255, 255, 255, 160);
+        app.fill(255, 255, 255, 96);
         app.stroke(225);
         app.rect(properties.x - width / 2, properties.y - height / 2, width, height, 5);
 

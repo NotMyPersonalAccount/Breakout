@@ -71,7 +71,7 @@ final public class HorizontalContainer extends Component.Base {
 
         public Builder(PApplet app) {
             this.app = app;
-            this.properties = new BaseProperties.Builder().setBackgroundColor(app.color(255, 255, 255, 96)).setBorderColor(app.color(255)).build();
+            this.properties = new BaseProperties.Builder().setBackgroundColor(app.color(255, 255, 255, 64)).setBorderColor(app.color(255)).build();
         }
 
         public Builder setProperties(BaseProperties properties) {
