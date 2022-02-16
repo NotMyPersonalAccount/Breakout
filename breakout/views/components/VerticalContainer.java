@@ -8,13 +8,17 @@ import static breakout.Sketch.*;
 final public class VerticalContainer extends Component.Base {
     private final float fixedHeight;
     private final float fixedWidth;
+    private final float paddingX;
+    private final float paddingY;
     private final ComponentAlignment.X alignment;
     private final Component[] components;
 
-    public VerticalContainer(PApplet app, BaseProperties properties, float fixedWidth, float fixedHeight, ComponentAlignment.X alignment, Component... components) {
+    public VerticalContainer(PApplet app, BaseProperties properties, float fixedWidth, float fixedHeight, float paddingX, float paddingY, ComponentAlignment.X alignment, Component... components) {
         super(app, properties);
         this.fixedWidth = fixedWidth;
         this.fixedHeight = fixedHeight;
+        this.paddingX = paddingX;
+        this.paddingY = paddingY;
         this.alignment = alignment;
         this.components = components;
     }
@@ -68,6 +72,8 @@ final public class VerticalContainer extends Component.Base {
         private BaseProperties properties;
         private float fixedWidth = -1;
         private float fixedHeight = -1;
+        private float paddingX = BASE_TEXT_SIZE;
+        private float paddingY = BASE_TEXT_SIZE;
         private ComponentAlignment.X alignment = ComponentAlignment.X.CENTER;
         private Component[] components;
 
@@ -91,6 +97,16 @@ final public class VerticalContainer extends Component.Base {
             return this;
         }
 
+        public Builder setPaddingX(float paddingX) {
+            this.paddingX = paddingX;
+            return this;
+        }
+
+        public Builder setPaddingY(float paddingY) {
+            this.paddingY = paddingY;
+            return this;
+        }
+
         public Builder setAlignment(ComponentAlignment.X alignment) {
             this.alignment = alignment;
             return this;
@@ -102,7 +118,7 @@ final public class VerticalContainer extends Component.Base {
         }
 
         public VerticalContainer build() {
-            return new VerticalContainer(app, properties, fixedWidth, fixedHeight, alignment, components);
+            return new VerticalContainer(app, properties, fixedWidth, fixedHeight, paddingX, paddingY, alignment, components);
         }
     }
 }

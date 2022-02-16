@@ -2,17 +2,23 @@ package breakout.views.components;
 
 import processing.core.PApplet;
 
+import static breakout.Sketch.BASE_TEXT_SIZE;
+
 // HorizontalContainer holds a collection of components and automatically positions them horizontally.
 final public class HorizontalContainer extends Component.Base {
     private final float fixedHeight;
     private final float fixedWidth;
+    private final float paddingX;
+    private final float paddingY;
     private final ComponentAlignment.Y alignment;
     private final Component[] components;
 
-    public HorizontalContainer(PApplet app, BaseProperties properties, float fixedWidth, float fixedHeight, ComponentAlignment.Y alignment, Component... components) {
+    public HorizontalContainer(PApplet app, BaseProperties properties, float fixedWidth, float fixedHeight, float paddingX, float paddingY, ComponentAlignment.Y alignment, Component... components) {
         super(app, properties);
         this.fixedWidth = fixedWidth;
         this.fixedHeight = fixedHeight;
+        this.paddingX = paddingX;
+        this.paddingY = paddingY;
         this.alignment = alignment;
         this.components = components;
     }
@@ -66,6 +72,8 @@ final public class HorizontalContainer extends Component.Base {
         private BaseProperties properties;
         private float fixedWidth = -1;
         private float fixedHeight = -1;
+        private float paddingX = BASE_TEXT_SIZE;
+        private float paddingY = BASE_TEXT_SIZE;
         private ComponentAlignment.Y alignment = ComponentAlignment.Y.CENTER;
         private Component[] components;
 
@@ -89,6 +97,16 @@ final public class HorizontalContainer extends Component.Base {
             return this;
         }
 
+        public Builder setPaddingX(float paddingX) {
+            this.paddingX = paddingX;
+            return this;
+        }
+
+        public Builder setPaddingY(float paddingY) {
+            this.paddingY = paddingY;
+            return this;
+        }
+
         public Builder setAlignment(ComponentAlignment.Y alignment) {
             this.alignment = alignment;
             return this;
@@ -100,7 +118,7 @@ final public class HorizontalContainer extends Component.Base {
         }
 
         public HorizontalContainer build() {
-            return new HorizontalContainer(app, properties, fixedWidth, fixedHeight, alignment, components);
+            return new HorizontalContainer(app, properties, fixedWidth, fixedHeight, paddingX, paddingY, alignment, components);
         }
     }
 }
