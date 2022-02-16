@@ -29,17 +29,23 @@ final public class VerticalContainer extends Component.Base {
             app.stroke(properties.borderColor);
             app.rect(properties.x - getWidth() / 2, properties.y - getHeight() / 2, getWidth(), getHeight(), 5);
         }
-        float currentY = properties.y - getHeight() / 2;
-        for (Component component : components) {
+        float currentY = properties.y - getHeight() / 2 + paddingY;
+        for (int i = 0; i < components.length; i++) {
+            Component component = components[i];
             float currentX = switch (alignment) {
-                case LEFT -> properties.x - getWidth() / 2 + component.getWidth() / 2;
-                case RIGHT -> properties.x + getWidth() / 2 - component.getWidth() / 2;
+                case LEFT -> properties.x - getWidth() / 2 + component.getWidth() / 2 + paddingX;
+                case RIGHT -> properties.x + getWidth() / 2 - component.getWidth() / 2 - paddingX;
                 default -> properties.x;
             };
-            currentY += component.getMarginY();
             component.setPosition(currentX, currentY + component.getHeight() / 2);
             component.draw();
-            currentY += component.getHeight() + +component.getMarginY();
+            if (i != 0) {
+                currentY += component.getMarginY();
+            }
+            currentY += component.getHeight();
+            if (i != components.length - 1) {
+                currentY += component.getMarginY();
+            }
         }
     }
 
@@ -47,7 +53,7 @@ final public class VerticalContainer extends Component.Base {
     public float getWidth() {
         float width = fixedWidth;
         for (Component component : components) {
-            width = Math.max(width, component.getWidth() + component.getMarginX() * 2);
+            width = Math.max(width, component.getWidth() + paddingX * 2);
         }
         return width;
     }
@@ -55,10 +61,17 @@ final public class VerticalContainer extends Component.Base {
     // getHeight returns the height of the container; it is the sum of the height of all components.
     public float getHeight() {
         float height = 0;
-        for (Component component : components) {
-            height += component.getHeight() + component.getMarginY() * 2;
+        for (int i = 0; i < components.length; i++) {
+            Component component = components[i];
+            if (i != 0) {
+                height += component.getMarginY();
+            }
+            height += component.getHeight();
+            if (i != components.length - 1) {
+                height += component.getMarginY();
+            }
         }
-        return Math.max(fixedHeight, height);
+        return Math.max(fixedHeight, height + paddingY * 2);
     }
 
     public void onClick() {
@@ -72,8 +85,8 @@ final public class VerticalContainer extends Component.Base {
         private BaseProperties properties;
         private float fixedWidth = -1;
         private float fixedHeight = -1;
-        private float paddingX = BASE_TEXT_SIZE /2f;
-        private float paddingY = BASE_TEXT_SIZE /2f;
+        private float paddingX = BASE_TEXT_SIZE / 2f;
+        private float paddingY = BASE_TEXT_SIZE / 2f;
         private ComponentAlignment.X alignment = ComponentAlignment.X.CENTER;
         private Component[] components;
 

@@ -29,34 +29,47 @@ final public class HorizontalContainer extends Component.Base {
             app.stroke(properties.borderColor);
             app.rect(properties.x - getWidth() / 2, properties.y - getHeight() / 2, getWidth(), getHeight(), 5);
         }
-        float currentX = properties.x - getWidth() / 2;
-        for (Component component : components) {
+        float currentX = properties.x - getWidth() / 2 + paddingX;
+        for (int i = 0; i < components.length; i++) {
+            Component component = components[i];
             float currentY = switch (alignment) {
-                case TOP -> properties.y - getHeight() / 2 + component.getHeight() / 2;
-                case BOTTOM -> properties.y + getHeight() / 2 - component.getHeight() / 2;
+                case TOP -> properties.y - getHeight() / 2 + component.getHeight() / 2 + paddingY;
+                case BOTTOM -> properties.y + getHeight() / 2 - component.getHeight() / 2 - paddingY;
                 default -> properties.y;
             };
-            currentX += component.getMarginX();
             component.setPosition(currentX + component.getWidth() / 2, currentY);
             component.draw();
+            if (i != 0) {
+                currentX += component.getMarginX();
+            }
             currentX += component.getWidth() + component.getMarginX();
+            if (i != components.length - 1) {
+                currentX += component.getMarginX();
+            }
         }
     }
 
     // getWidth returns the width of the container; it is the sum of the widths of all components.
     public float getWidth() {
         float width = 0;
-        for (Component component : components) {
-            width += component.getWidth() + component.getMarginX() * 2;
+        for (int i = 0; i < components.length; i++) {
+            Component component = components[i];
+            if (i != 0) {
+                width += component.getMarginX();
+            }
+            width += component.getWidth();
+            if (i != components.length - 1) {
+                width += component.getMarginX();
+            }
         }
-        return Math.max(width, fixedWidth);
+        return Math.max(width, fixedWidth + paddingX * 2);
     }
 
     // getHeight returns the height of the container; it is the height of the tallest component.
     public float getHeight() {
         float height = fixedHeight;
         for (Component component : components) {
-            height = Math.max(height, component.getHeight() + component.getMarginY() * 2);
+            height = Math.max(height, component.getHeight() + paddingY * 2);
         }
         return height;
     }
