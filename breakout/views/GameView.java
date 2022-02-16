@@ -17,7 +17,7 @@ public class GameView extends View {
     private static final float BASE_PADDLE_WIDTH = CANVAS_SIZE_X / 4.8f;
     private static final int PADDLE_SIZE_CYCLE_DURATION = (int) (BASE_PADDLE_WIDTH * 15);
     private static final float PADDLE_SIZE_CYCLE_MIN = 0.65f;
-    private static float PADDLE_WIDTH = BASE_PADDLE_WIDTH;
+    private float PADDLE_WIDTH = BASE_PADDLE_WIDTH;
 
     private static final float PADDLE_HEIGHT = CANVAS_SIZE_X / 48f;
     private static final float PADDLE_Y = CANVAS_SIZE_Y - PADDLE_HEIGHT;
