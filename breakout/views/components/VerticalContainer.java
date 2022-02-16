@@ -37,11 +37,11 @@ final public class VerticalContainer extends Component.Base {
                 case RIGHT -> properties.x + getWidth() / 2 - component.getWidth() / 2 - paddingX;
                 default -> properties.x;
             };
-            component.setPosition(currentX, currentY + component.getHeight() / 2);
-            component.draw();
             if (i != 0) {
                 currentY += component.getMarginY();
             }
+            component.setPosition(currentX, currentY + component.getHeight() / 2);
+            component.draw();
             currentY += component.getHeight();
             if (i != components.length - 1) {
                 currentY += component.getMarginY();

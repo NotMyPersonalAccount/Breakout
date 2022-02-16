@@ -37,11 +37,11 @@ final public class HorizontalContainer extends Component.Base {
                 case BOTTOM -> properties.y + getHeight() / 2 - component.getHeight() / 2 - paddingY;
                 default -> properties.y;
             };
-            component.setPosition(currentX + component.getWidth() / 2, currentY);
-            component.draw();
             if (i != 0) {
                 currentX += component.getMarginX();
             }
+            component.setPosition(currentX + component.getWidth() / 2, currentY);
+            component.draw();
             currentX += component.getWidth() + component.getMarginX();
             if (i != components.length - 1) {
                 currentX += component.getMarginX();
