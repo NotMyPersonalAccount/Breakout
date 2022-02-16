@@ -13,7 +13,6 @@ public class Text extends Component.Base {
         super(app, properties);
         this.textSize = textSize;
         this.text = text;
-        this.properties = new BaseProperties.Builder().setBackgroundColor(app.color(255, 255, 255, 96)).setBorderColor(app.color(255)).build();
     }
 
     public void draw() {
@@ -46,6 +45,7 @@ public class Text extends Component.Base {
 
         public Builder(PApplet app) {
             this.app = app;
+            this.properties = new BaseProperties.Builder().setBackgroundColor(app.color(255, 255, 255, 96)).setBorderColor(app.color(255)).build();
         }
 
         public Builder setProperties(BaseProperties properties) {
