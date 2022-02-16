@@ -10,7 +10,6 @@ import static breakout.Sketch.*;
 
 public class ConfirmationView extends View {
     private final View previousView;
-    private final String message;
 
     public ConfirmationView(Sketch app, View previousView, String message, Runnable onConfirm, Runnable onCancel) {
         super(app, new Component[]{new VerticalContainer.Builder(app).withComponents(
@@ -19,7 +18,6 @@ public class ConfirmationView extends View {
                 new Button.Builder(app).setText("Cancel").setOnClick(onCancel).build()
         ).build()});
         this.previousView = previousView;
-        this.message = message;
     }
 
     public void draw() {
