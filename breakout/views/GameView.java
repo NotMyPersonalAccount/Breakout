@@ -28,6 +28,8 @@ public class GameView extends View {
     private int lives = 1;
     private int score = 0;
 
+    private final Map<Info, Text> infoComponents;
+
     private Ball ball;
 
     private float paddleX;
@@ -41,12 +43,14 @@ public class GameView extends View {
     public GameView(Sketch app, boolean simulation) {
         super(app, null);
 
-        this.components = new Component[]{new HorizontalContainer.Builder(app).setAlignment(ComponentAlignment.Y.BOTTOM).withComponents(
-                new VerticalContainer.Builder(app).setAlignment(ComponentAlignment.X.RIGHT).withComponents(
-                        new Text.Builder(app).setText("Test").build(),
-                        new Text.Builder(app).setText("Test").build(),
-                        new Text.Builder(app).setText("Test").build()
-                ).build()
+        Component.BaseProperties textProperties = new Component.BaseProperties.Builder().setBackgroundColor(-1).setMargins(BASE_TEXT_SIZE / 8f, BASE_TEXT_SIZE / 8f).build();
+        this.infoComponents = Map.of(
+                Info.LEVEL, new Text.Builder(app).setProperties(textProperties).build(),
+                Info.LIVES, new Text.Builder(app).setProperties(textProperties).build(),
+                Info.SCORE, new Text.Builder(app).setProperties(textProperties).build()
+        );
+        this.components = new Component[]{new HorizontalContainer.Builder(app).setFixedWidth(CANVAS_SIZE_X).setFixedHeight(CANVAS_SIZE_Y).setProperties(new Component.BaseProperties.Builder().setBackgroundColor(-1).build()).setAlignment(ComponentAlignment.Y.BOTTOM).withComponents(
+                new VerticalContainer.Builder(app).setProperties(new Component.BaseProperties.Builder().setBackgroundColor(-1).setMargins(BASE_TEXT_SIZE, BASE_TEXT_SIZE).build()).setAlignment(ComponentAlignment.X.LEFT).withComponents(this.infoComponents.values().toArray(Text[]::new)).build()
         ).build()};
 
         initGame();
@@ -103,12 +107,10 @@ public class GameView extends View {
             }
         }
 
-        // Draw core game information; lives, levels, & score.
-        app.fill(255);
-        app.textAlign(RIGHT, CENTER);
-        app.text("Lives: " + lives, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 4);
-        app.text("Level: " + (level + 1), CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 3);
-        app.text("Score: " + score, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 2);
+        // Resolve user-visible game information & update text components.
+        infoComponents.forEach((info, text) -> {
+            text.setText(info.resolve(this));
+        });
         super.draw();
     }
 
@@ -317,6 +319,29 @@ public class GameView extends View {
         if (simulation.levels.size() == 0) {
             simulation.levels = new ArrayList<>();
             simulation.levels.add(simulatedBricks);
+        }
+    }
+
+    // Info is an enum of user-visible game information.
+    enum Info {
+        LIVES((view) -> "Lives: " + view.lives),
+        LEVEL((view) -> "Level: " + view.level),
+        SCORE((view) -> "Score: " + view.score);
+
+        private final InfoResolver resolver;
+
+        Info(InfoResolver resolver) {
+            this.resolver = resolver;
+        }
+
+        // resolve returns a formatted string of the game information based off of a GameView.
+        String resolve(GameView view) {
+            return resolver.call(view);
+        }
+
+        // InfoResolver is an interface for a function that accepts a GameView and returns a String.
+        interface InfoResolver {
+            String call(GameView view);
         }
     }
 }

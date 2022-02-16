@@ -62,13 +62,14 @@ final public class HorizontalContainer extends Component.Base {
                 width += component.getMarginX();
             }
         }
-        return Math.max(width, fixedWidth + paddingX * 2);
+        return Math.max(fixedWidth, width + paddingX * 2);
     }
 
     // getHeight returns the height of the container; it is the height of the tallest component.
     public float getHeight() {
         float height = fixedHeight;
         for (Component component : components) {
+            System.out.println(component.getHeight());
             height = Math.max(height, component.getHeight() + paddingY * 2);
         }
         return height;
