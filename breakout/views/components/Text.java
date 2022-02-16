@@ -5,22 +5,26 @@ import processing.core.PApplet;
 import static breakout.Sketch.BASE_TEXT_SIZE;
 import static processing.core.PConstants.CENTER;
 
-public class Text extends BaseComponent {
+public class Text extends Component.Base {
     protected float textSize;
     protected String text;
 
-    public Text(PApplet app, float x, float y, float marginX, float marginY, int backgroundColor, int borderColor, float textSize, String text) {
-        super(app, x, y, marginX, marginY, backgroundColor, borderColor);
+    public Text(PApplet app, BaseProperties properties, float textSize, String text) {
+        super(app, properties);
         this.textSize = textSize;
         this.text = text;
+        this.properties = new BaseProperties.Builder().setBackgroundColor(app.color(255, 255, 255, 96)).setBorderColor(app.color(255)).build();
     }
 
     public void draw() {
         app.textAlign(CENTER, CENTER);
         app.textSize(textSize);
         app.fill(255);
-        app.text(text, x, y);
+        app.text(text, properties.x, properties.y);
+    }
 
+    public void setText(String text) {
+        this.text = text;
     }
 
     public float getWidth() {
@@ -36,40 +40,16 @@ public class Text extends BaseComponent {
 
     public static class Builder {
         private final PApplet app;
-        private float x = 0;
-        private float y = 0;
-        private float marginX = BASE_TEXT_SIZE / 4f;
-        private float marginY = BASE_TEXT_SIZE / 4f;
-        private int backgroundColor;
-        private int borderColor;
+        private BaseProperties properties;
         private float textSize = BASE_TEXT_SIZE;
         private String text;
 
         public Builder(PApplet app) {
             this.app = app;
-            backgroundColor = app.color(255, 255, 255, 96);
-            borderColor = app.color(255);
         }
 
-        public Builder setPosition(float x, float y) {
-            this.x = x;
-            this.y = y;
-            return this;
-        }
-
-        public Builder setMargins(float marginX, float marginY) {
-            this.marginX = marginX;
-            this.marginY = marginY;
-            return this;
-        }
-
-        public Builder setBackgroundColor(int backgroundColor) {
-            this.backgroundColor = backgroundColor;
-            return this;
-        }
-
-        public Builder setBorderColor(int borderColor) {
-            this.borderColor = borderColor;
+        public Builder setProperties(BaseProperties properties) {
+            this.properties = properties;
             return this;
         }
 
@@ -84,7 +64,7 @@ public class Text extends BaseComponent {
         }
 
         public Text build() {
-            return new Text(app, x, y, marginX, marginY, backgroundColor, borderColor, textSize, text);
+            return new Text(app, properties, textSize, text);
         }
     }
 }

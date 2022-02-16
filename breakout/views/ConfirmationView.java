@@ -6,8 +6,6 @@ import breakout.views.components.Component;
 import breakout.views.components.Text;
 import breakout.views.components.VerticalContainer;
 
-import static breakout.Sketch.*;
-
 public class ConfirmationView extends View {
     private final View previousView;
 

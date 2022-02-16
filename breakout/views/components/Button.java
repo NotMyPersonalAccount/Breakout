@@ -5,14 +5,14 @@ import processing.core.PApplet;
 import static breakout.Sketch.BASE_TEXT_SIZE;
 import static breakout.Sketch.CANVAS_SIZE_X;
 
-public class Button extends BaseComponent {
+public class Button extends Component.Base {
     protected float width;
     protected float height;
     protected Text textComponent;
     protected Runnable onClick;
 
-    public Button(PApplet app, float x, float y, float marginX, float marginY, int backgroundColor, int borderColor, float width, float height, float textSize, String text, Runnable onClick) {
-        super(app, x, y, marginX, marginY, backgroundColor, borderColor);
+    public Button(PApplet app, BaseProperties properties, float width, float height, float textSize, String text, Runnable onClick) {
+        super(app, properties);
         this.width = width;
         this.height = height;
         this.textComponent = new Text.Builder(app).setText(text).setTextSize(textSize).build();
@@ -22,9 +22,9 @@ public class Button extends BaseComponent {
     public void draw() {
         app.fill(255, 255, 255, 160);
         app.stroke(225);
-        app.rect(x - width / 2, y - height / 2, width, height, 5);
+        app.rect(properties.x - width / 2, properties.y - height / 2, width, height, 5);
 
-        textComponent.setPosition(x, y);
+        textComponent.setPosition(properties.x, properties.y);
         textComponent.draw();
     }
 
@@ -42,12 +42,7 @@ public class Button extends BaseComponent {
 
     public static class Builder {
         private final PApplet app;
-        private float x = 0;
-        private float y = 0;
-        private float marginX = BASE_TEXT_SIZE / 4f;
-        private float marginY = BASE_TEXT_SIZE / 4f;
-        private int backgroundColor;
-        private int borderColor;
+        private BaseProperties properties;
         private float width = CANVAS_SIZE_X / 2.4f;
         private float height = BASE_TEXT_SIZE;
         private float textSize = BASE_TEXT_SIZE;
@@ -56,29 +51,11 @@ public class Button extends BaseComponent {
 
         public Builder(PApplet app) {
             this.app = app;
-            backgroundColor = app.color(255, 255, 255, 160);
-            borderColor = app.color(225);
+            this.properties = new BaseProperties.Builder().build();
         }
 
-        public Builder setPosition(float x, float y) {
-            this.x = x;
-            this.y = y;
-            return this;
-        }
-
-        public Builder setMargins(float marginX, float marginY) {
-            this.marginX = marginX;
-            this.marginY = marginY;
-            return this;
-        }
-
-        public Builder setBackgroundColor(int backgroundColor) {
-            this.backgroundColor = backgroundColor;
-            return this;
-        }
-
-        public Builder setBorderColor(int borderColor) {
-            this.borderColor = borderColor;
+        public Builder setProperties(BaseProperties properties) {
+            this.properties = properties;
             return this;
         }
 
@@ -108,7 +85,7 @@ public class Button extends BaseComponent {
         }
 
         public Button build() {
-            return new Button(app, x, y, marginX, marginY, backgroundColor, borderColor, width, height, textSize, text, onClick);
+            return new Button(app, properties, width, height, textSize, text, onClick);
         }
     }
 }

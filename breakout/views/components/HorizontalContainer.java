@@ -2,35 +2,33 @@ package breakout.views.components;
 
 import processing.core.PApplet;
 
-import static breakout.Sketch.*;
-
 // HorizontalContainer holds a collection of components and automatically positions them horizontally.
-final public class HorizontalContainer extends BaseComponent {
-    private final int backgroundColor;
-    private final int borderColor;
+final public class HorizontalContainer extends Component.Base {
+    private final float fixedHeight;
+    private final float fixedWidth;
     private final ComponentAlignment.Y alignment;
     private final Component[] components;
 
-    public HorizontalContainer(PApplet app, float x, float y, float marginX, float marginY, int backgroundColor, int borderColor, ComponentAlignment.Y alignment, Component... components) {
-        super(app, x, y, marginX, marginY, backgroundColor, borderColor);
-        this.backgroundColor = backgroundColor;
-        this.borderColor = borderColor;
+    public HorizontalContainer(PApplet app, BaseProperties properties, float fixedWidth, float fixedHeight, ComponentAlignment.Y alignment, Component... components) {
+        super(app, properties);
+        this.fixedWidth = fixedWidth;
+        this.fixedHeight = fixedHeight;
         this.alignment = alignment;
         this.components = components;
     }
 
     public void draw() {
-        if (backgroundColor != 0) {
-            app.fill(backgroundColor);
-            app.stroke(borderColor);
-            app.rect(x - getWidth() / 2, y - getHeight() / 2, getWidth(), getHeight(), 5);
+        if (properties.backgroundColor >= 0) {
+            app.fill(properties.backgroundColor);
+            app.stroke(properties.borderColor);
+            app.rect(properties.x - getWidth() / 2, properties.y - getHeight() / 2, getWidth(), getHeight(), 5);
         }
-        float currentX = x - getWidth() / 2;
+        float currentX = properties.x - getWidth() / 2;
         for (Component component : components) {
             float currentY = switch (alignment) {
-                case TOP -> y - getHeight() / 2 + component.getHeight() / 2;
-                case BOTTOM -> y + getHeight() / 2 - component.getHeight() / 2;
-                default -> y;
+                case TOP -> properties.y - getHeight() / 2 + component.getHeight() / 2;
+                case BOTTOM -> properties.y + getHeight() / 2 - component.getHeight() / 2;
+                default -> properties.y;
             };
             currentX += component.getMarginX();
             component.setPosition(currentX + component.getWidth() / 2, currentY);
@@ -45,12 +43,12 @@ final public class HorizontalContainer extends BaseComponent {
         for (Component component : components) {
             width += component.getWidth() + component.getMarginX() * 2;
         }
-        return width;
+        return Math.max(width, fixedWidth);
     }
 
     // getHeight returns the height of the container; it is the height of the tallest component.
     public float getHeight() {
-        float height = 0;
+        float height = fixedHeight;
         for (Component component : components) {
             height = Math.max(height, component.getHeight() + component.getMarginY() * 2);
         }
@@ -65,40 +63,29 @@ final public class HorizontalContainer extends BaseComponent {
 
     public static class Builder {
         private final PApplet app;
-        private float x = CANVAS_SIZE_X / 2f;
-        private float y = CANVAS_SIZE_Y / 2f;
-        private float marginX = BASE_TEXT_SIZE / 4f;
-        private float marginY = BASE_TEXT_SIZE / 4f;
-        private int backgroundColor;
-        private int borderColor;
+        private BaseProperties properties;
+        private float fixedWidth = -1;
+        private float fixedHeight = -1;
         private ComponentAlignment.Y alignment = ComponentAlignment.Y.CENTER;
         private Component[] components;
 
         public Builder(PApplet app) {
             this.app = app;
-            backgroundColor = app.color(255, 255, 255, 96);
-            borderColor = app.color(225);
+            this.properties = new BaseProperties.Builder().setBackgroundColor(app.color(255, 255, 255, 96)).setBorderColor(app.color(255)).build();
         }
 
-        public Builder setPosition(float x, float y) {
-            this.x = x;
-            this.y = y;
+        public Builder setProperties(BaseProperties properties) {
+            this.properties = properties;
             return this;
         }
 
-        public Builder setMargins(float marginX, float marginY) {
-            this.marginX = marginX;
-            this.marginY = marginY;
+        public Builder setFixedWidth(float fixedWidth) {
+            this.fixedWidth = fixedWidth;
             return this;
         }
 
-        public Builder setBackgroundColor(int backgroundColor) {
-            this.backgroundColor = backgroundColor;
-            return this;
-        }
-
-        public Builder setBorderColor(int borderColor) {
-            this.borderColor = borderColor;
+        public Builder setFixedHeight(float fixedHeight) {
+            this.fixedHeight = fixedHeight;
             return this;
         }
 
@@ -113,7 +100,7 @@ final public class HorizontalContainer extends BaseComponent {
         }
 
         public HorizontalContainer build() {
-            return new HorizontalContainer(app, x, y, marginX, marginY, backgroundColor, borderColor, alignment, components);
+            return new HorizontalContainer(app, properties, fixedWidth, fixedHeight, alignment, components);
         }
     }
 }
