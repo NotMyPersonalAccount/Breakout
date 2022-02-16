@@ -72,8 +72,8 @@ final public class VerticalContainer extends Component.Base {
         private BaseProperties properties;
         private float fixedWidth = -1;
         private float fixedHeight = -1;
-        private float paddingX = BASE_TEXT_SIZE;
-        private float paddingY = BASE_TEXT_SIZE;
+        private float paddingX = BASE_TEXT_SIZE /2f;
+        private float paddingY = BASE_TEXT_SIZE /2f;
         private ComponentAlignment.X alignment = ComponentAlignment.X.CENTER;
         private Component[] components;
 

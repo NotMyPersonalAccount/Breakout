@@ -72,8 +72,8 @@ final public class HorizontalContainer extends Component.Base {
         private BaseProperties properties;
         private float fixedWidth = -1;
         private float fixedHeight = -1;
-        private float paddingX = BASE_TEXT_SIZE;
-        private float paddingY = BASE_TEXT_SIZE;
+        private float paddingX = BASE_TEXT_SIZE / 2f;
+        private float paddingY = BASE_TEXT_SIZE / 2f;
         private ComponentAlignment.Y alignment = ComponentAlignment.Y.CENTER;
         private Component[] components;
 
