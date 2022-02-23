@@ -4,7 +4,7 @@ import breakout.Sketch;
 import breakout.objects.Ball;
 import breakout.objects.Brick;
 import breakout.utils.Collision;
-import processing.core.PImage;
+import breakout.views.components.*;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class GameView extends View {
     private static final float BASE_PADDLE_WIDTH = CANVAS_SIZE_X / 4.8f;
     private static final int PADDLE_SIZE_CYCLE_DURATION = (int) (BASE_PADDLE_WIDTH * 15);
     private static final float PADDLE_SIZE_CYCLE_MIN = 0.65f;
-    private static float PADDLE_WIDTH = BASE_PADDLE_WIDTH;
+    private float PADDLE_WIDTH = BASE_PADDLE_WIDTH;
 
     private static final float PADDLE_HEIGHT = CANVAS_SIZE_X / 48f;
     private static final float PADDLE_Y = CANVAS_SIZE_Y - PADDLE_HEIGHT;
@@ -25,8 +25,10 @@ public class GameView extends View {
     private int level = 0;
     private ArrayList<Brick[]> levels;
 
-    private int lives = 9;
+    private int lives = 1;
     private int score = 0;
+
+    private final Map<Info, Text> infoComponents;
 
     private Ball ball;
 
@@ -41,6 +43,14 @@ public class GameView extends View {
     public GameView(Sketch app, boolean simulation) {
         super(app, null);
 
+        Component.BaseProperties textProperties = new Component.BaseProperties.Builder().setBackgroundColor(-1).setMargins(BASE_TEXT_SIZE / 8f, BASE_TEXT_SIZE / 8f).build();
+        this.infoComponents = Map.of(
+                Info.LEVEL, new Text.Builder(app).setProperties(textProperties).build(),
+                Info.LIVES, new Text.Builder(app).setProperties(textProperties).build(),
+                Info.SCORE, new Text.Builder(app).setProperties(textProperties).build()
+        );
+        this.components = new Component[]{new Container.Builder(app).setFixedWidth(CANVAS_SIZE_X).setFixedHeight(CANVAS_SIZE_Y).setDirection(Container.Direction.VERTICAL).setAlignmentX(Container.Alignment.X.RIGHT).setAlignmentY(Container.Alignment.Y.BOTTOM).setPaddingX(BASE_TEXT_SIZE).setPaddingY(BASE_TEXT_SIZE).setProperties(new Component.BaseProperties.Builder().setBackgroundColor(-1).build()).withComponents(this.infoComponents.values().toArray(Text[]::new)).build()};
+
         initGame();
         if (!simulation) {
             this.simulation = new GameView(app, true);
@@ -50,6 +60,8 @@ public class GameView extends View {
     public void draw() {
         // Tick the game. Do not continue by drawing if tickGame method returns false.
         if (!tickGame(false)) return;
+
+        app.stroke(0);
 
         // Get bricks of the current level.
         Brick[] bricks = levels.get(level);
@@ -93,12 +105,11 @@ public class GameView extends View {
             }
         }
 
-        // Draw core game information; lives, levels, & score.
-        app.fill(255);
-        app.textAlign(RIGHT, CENTER);
-        app.text("Lives: " + lives, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 4);
-        app.text("Level: " + (level + 1), CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 3);
-        app.text("Score: " + score, CANVAS_SIZE_X - BASE_TEXT_SIZE * 2, CANVAS_SIZE_Y - BASE_TEXT_SIZE * 2);
+        // Resolve user-visible game information & update text components.
+        infoComponents.forEach((info, text) -> {
+            text.setText(info.resolve(this));
+        });
+        super.draw();
     }
 
     // tickGame ticks the game physics. It returns true if the game should be redrawn.
@@ -306,6 +317,29 @@ public class GameView extends View {
         if (simulation.levels.size() == 0) {
             simulation.levels = new ArrayList<>();
             simulation.levels.add(simulatedBricks);
+        }
+    }
+
+    // Info is an enum of user-visible game information.
+    enum Info {
+        LIVES((view) -> "Lives: " + view.lives),
+        LEVEL((view) -> "Level: " + view.level),
+        SCORE((view) -> "Score: " + view.score);
+
+        private final InfoResolver resolver;
+
+        Info(InfoResolver resolver) {
+            this.resolver = resolver;
+        }
+
+        // resolve returns a formatted string of the game information based off of a GameView.
+        String resolve(GameView view) {
+            return resolver.call(view);
+        }
+
+        // InfoResolver is an interface for a function that accepts a GameView and returns a String.
+        interface InfoResolver {
+            String call(GameView view);
         }
     }
 }

@@ -1,35 +1,30 @@
 package breakout.views;
 
 import breakout.Sketch;
-import breakout.views.input.Input;
-import breakout.views.input.TextInput;
+import breakout.views.components.Component;
 
 public class View {
     protected Sketch app;
-    protected Input[] inputs;
+    protected Component[] components;
 
-    public View(Sketch app, Input[] inputs) {
+    public View(Sketch app, Component[] components) {
         this.app = app;
-        this.inputs = inputs == null ? new Input[0] : inputs;
+        this.components = components == null ? new Component[0] : components;
     }
 
     public void draw() {
-        for (Input input : inputs) {
-            input.draw();
+        for (Component component : components) {
+            component.draw();
         }
     }
 
     public void mousePressed() {
-        for (Input input : inputs) {
-            if (input.isHovering()) input.onClick();
+        for (Component component : components) {
+            if (component.isMouseOver()) component.onClick();
         }
     }
 
     public void keyPressed() {
-        for (Input input : inputs) {
-            if (input instanceof TextInput) {
-                ((TextInput) input).onInput(app.key);
-            }
-        }
+
     }
 }
