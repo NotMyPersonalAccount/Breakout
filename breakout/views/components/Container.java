@@ -34,40 +34,50 @@ final public class Container extends Component.Base {
             app.rect(properties.x - getWidth() / 2, properties.y - getHeight() / 2, getWidth(), getHeight(), 5);
         }
         //TODO: Cleanup
-        float currentX = switch (alignmentX) {
-            case LEFT -> properties.x - getWidth() / 2;
-            case CENTER -> direction == Direction.HORIZONTAL ? properties.x - getPrimarySide() / 2 : properties.x;
-            case RIGHT -> properties.x + getWidth() / 2;
+        float primaryStart = switch (direction) {
+            case HORIZONTAL -> switch (alignmentX) {
+                case LEFT -> properties.x - getWidth() / 2;
+                case CENTER -> properties.x - getPrimarySide() / 2;
+                case RIGHT -> properties.x + getWidth() / 2;
+            };
+            case VERTICAL -> switch (alignmentY) {
+                case TOP -> properties.y - getHeight() / 2;
+                case CENTER -> properties.y - getPrimarySide() / 2;
+                case BOTTOM -> properties.y + getHeight() / 2;
+            };
         };
-        float currentY = switch (alignmentY) {
-            case TOP -> properties.y - getHeight() / 2;
-            case CENTER -> direction == Direction.VERTICAL ? properties.y - getPrimarySide() / 2 : properties.y;
-            case BOTTOM -> properties.y + getHeight() / 2;
-        };
+        float directionFactor;
         for (int i = 0; i < components.length; i++) {
             Component component = components[i];
-            //TODO: Cleanup
             switch (direction) {
                 case HORIZONTAL -> {
-                    float directionFactor = alignmentX == Alignment.X.RIGHT ? -1 : 1;
+                    directionFactor = alignmentX == Alignment.X.RIGHT ? -1 : 1;
                     if (i != 0) {
-                        currentX += component.getMarginX() * directionFactor;
+                        primaryStart += getMarginX() * directionFactor;
                     }
-                    component.setPosition(currentX + (component.getWidth() / 2) * directionFactor, currentY);
-                    currentX += component.getWidth() + component.getMarginX() * directionFactor;
+                    component.setPosition(primaryStart + component.getWidth() / 2 * directionFactor, switch (alignmentY) {
+                        case TOP -> properties.x - getHeight() / 2;
+                        case CENTER -> properties.x - component.getHeight() / 2;
+                        case BOTTOM -> properties.x + getHeight() / 2;
+                    } + component.getHeight() / 2 * directionFactor);
+                    primaryStart += component.getWidth() * directionFactor;
                     if (i != components.length - 1) {
-                        currentX += component.getMarginX() * directionFactor;
+                        primaryStart += getMarginX() * directionFactor;
                     }
                 }
                 case VERTICAL -> {
-                    float directionFactor = alignmentY == Alignment.Y.BOTTOM ? -1 : 1;
+                    directionFactor = alignmentY == Alignment.Y.BOTTOM ? -1 : 1;
                     if (i != 0) {
-                        currentY += component.getMarginY() * directionFactor;
+                        primaryStart += getMarginY() * directionFactor;
                     }
-                    component.setPosition(currentX, currentY + (component.getHeight() / 2) * directionFactor);
-                    currentY += component.getHeight() + component.getMarginY() * directionFactor;
+                    component.setPosition(switch (alignmentX) {
+                        case LEFT -> properties.x - getWidth() / 2;
+                        case CENTER -> properties.x - component.getWidth() / 2;
+                        case RIGHT -> properties.x + getWidth() / 2;
+                    } + component.getWidth() / 2 * directionFactor, primaryStart + component.getHeight() / 2 * directionFactor);
+                    primaryStart += component.getHeight() * directionFactor;
                     if (i != components.length - 1) {
-                        currentY += component.getMarginY() * directionFactor;
+                        primaryStart += getMarginX() * directionFactor;
                     }
                 }
             }
