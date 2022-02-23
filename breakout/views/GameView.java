@@ -49,9 +49,7 @@ public class GameView extends View {
                 Info.LIVES, new Text.Builder(app).setProperties(textProperties).build(),
                 Info.SCORE, new Text.Builder(app).setProperties(textProperties).build()
         );
-        this.components = new Component[]{new HorizontalContainer.Builder(app).setFixedWidth(CANVAS_SIZE_X).setFixedHeight(CANVAS_SIZE_Y).setProperties(new Component.BaseProperties.Builder().setBackgroundColor(-1).build()).setAlignment(ComponentAlignment.Y.BOTTOM).withComponents(
-                new VerticalContainer.Builder(app).setProperties(new Component.BaseProperties.Builder().setBackgroundColor(-1).setMargins(BASE_TEXT_SIZE, BASE_TEXT_SIZE).build()).setAlignment(ComponentAlignment.X.LEFT).withComponents(this.infoComponents.values().toArray(Text[]::new)).build()
-        ).build()};
+        this.components = new Component[]{new Container.Builder(app).setFixedWidth(CANVAS_SIZE_X).setFixedHeight(CANVAS_SIZE_Y).setDirection(Container.Direction.VERTICAL).setAlignmentX(Container.Alignment.X.RIGHT).setAlignmentY(Container.Alignment.Y.BOTTOM).setPaddingX(BASE_TEXT_SIZE).setPaddingY(BASE_TEXT_SIZE).setProperties(new Component.BaseProperties.Builder().setBackgroundColor(-1).build()).withComponents(this.infoComponents.values().toArray(Text[]::new)).build()};
 
         initGame();
         if (!simulation) {
