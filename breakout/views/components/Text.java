@@ -1,6 +1,6 @@
 package breakout.views.components;
 
-import processing.core.PApplet;
+import breakout.Sketch;
 
 import static breakout.Sketch.BASE_TEXT_SIZE;
 import static processing.core.PConstants.CENTER;
@@ -9,7 +9,7 @@ public class Text extends Component.Base {
     protected float textSize;
     protected String text;
 
-    public Text(PApplet app, BaseProperties properties, float textSize, String text) {
+    public Text(Sketch app, BaseProperties properties, float textSize, String text) {
         super(app, properties);
         this.textSize = textSize;
         this.text = text;
@@ -38,12 +38,12 @@ public class Text extends Component.Base {
     }
 
     public static class Builder {
-        private final PApplet app;
+        private final Sketch app;
         private BaseProperties properties;
         private float textSize = BASE_TEXT_SIZE;
         private String text;
 
-        public Builder(PApplet app) {
+        public Builder(Sketch app) {
             this.app = app;
             this.properties = new BaseProperties.Builder().setBackgroundColor(app.color(255, 255, 255, 96)).setBorderColor(app.color(255)).build();
         }

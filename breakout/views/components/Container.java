@@ -1,6 +1,6 @@
 package breakout.views.components;
 
-import processing.core.PApplet;
+import breakout.Sketch;
 
 import static breakout.Sketch.BASE_TEXT_SIZE;
 
@@ -15,7 +15,7 @@ final public class Container extends Component.Base {
     private final Direction direction;
     private final Component[] components;
 
-    public Container(PApplet app, BaseProperties properties, float fixedWidth, float fixedHeight, float paddingX, float paddingY, Alignment.X alignmentX, Alignment.Y alignmentY, Direction direction, Component... components) {
+    public Container(Sketch app, BaseProperties properties, float fixedWidth, float fixedHeight, float paddingX, float paddingY, Alignment.X alignmentX, Alignment.Y alignmentY, Direction direction, Component... components) {
         super(app, properties);
         this.fixedWidth = fixedWidth;
         this.fixedHeight = fixedHeight;
@@ -129,7 +129,7 @@ final public class Container extends Component.Base {
     }
 
     public static class Builder {
-        private final PApplet app;
+        private final Sketch app;
         private BaseProperties properties;
         private float fixedWidth = -1;
         private float fixedHeight = -1;
@@ -140,7 +140,7 @@ final public class Container extends Component.Base {
         public Direction direction;
         private Component[] components;
 
-        public Builder(PApplet app) {
+        public Builder(Sketch app) {
             this.app = app;
             this.properties = new BaseProperties.Builder().setBackgroundColor(app.color(255, 255, 255, 64)).setBorderColor(app.color(255)).build();
         }

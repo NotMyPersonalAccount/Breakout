@@ -1,6 +1,6 @@
 package breakout.views.components;
 
-import processing.core.PApplet;
+import breakout.Sketch;
 
 import static breakout.Sketch.BASE_TEXT_SIZE;
 import static breakout.Sketch.CANVAS_SIZE_X;
@@ -11,7 +11,7 @@ public class Button extends Component.Base {
     protected Text textComponent;
     protected Runnable onClick;
 
-    public Button(PApplet app, BaseProperties properties, float width, float height, float textSize, String text, Runnable onClick) {
+    public Button(Sketch app, BaseProperties properties, float width, float height, float textSize, String text, Runnable onClick) {
         super(app, properties);
         this.width = width;
         this.height = height;
@@ -41,7 +41,7 @@ public class Button extends Component.Base {
     }
 
     public static class Builder {
-        private final PApplet app;
+        private final Sketch app;
         private BaseProperties properties;
         private float width = CANVAS_SIZE_X / 2.4f;
         private float height = BASE_TEXT_SIZE;
@@ -49,7 +49,7 @@ public class Button extends Component.Base {
         private String text;
         private Runnable onClick;
 
-        public Builder(PApplet app) {
+        public Builder(Sketch app) {
             this.app = app;
             this.properties = new BaseProperties.Builder().build();
         }

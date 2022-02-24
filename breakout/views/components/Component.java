@@ -1,6 +1,6 @@
 package breakout.views.components;
 
-import processing.core.PApplet;
+import breakout.Sketch;
 
 import static breakout.Sketch.*;
 
@@ -24,11 +24,11 @@ public interface Component {
 
     // Base partially implements the Component interface w/ methods for margin & position.
     abstract class Base implements Component {
-        protected final PApplet app;
+        protected final Sketch app;
 
         protected BaseProperties properties;
 
-        public Base(PApplet app, BaseProperties properties) {
+        public Base(Sketch app, BaseProperties properties) {
             this.app = app;
             this.properties = properties;
         }
