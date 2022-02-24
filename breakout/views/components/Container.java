@@ -56,9 +56,9 @@ final public class Container extends Component.Base {
                         primaryStart += getMarginX() * directionFactor;
                     }
                     component.setPosition(primaryStart + component.getWidth() / 2 * directionFactor, switch (alignmentY) {
-                        case TOP -> properties.x - getHeight() / 2 - paddingY;
-                        case CENTER -> properties.x - component.getHeight() / 2;
-                        case BOTTOM -> properties.x + getHeight() / 2 + paddingY;
+                        case TOP -> properties.y - getHeight() / 2 - paddingY;
+                        case CENTER -> properties.y - component.getHeight() / 2;
+                        case BOTTOM -> properties.y + getHeight() / 2 + paddingY;
                     } + component.getHeight() / 2 * directionFactor);
                     primaryStart += component.getWidth() * directionFactor;
                     if (i != components.length - 1) {
