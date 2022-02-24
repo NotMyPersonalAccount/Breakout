@@ -4,6 +4,7 @@ import breakout.views.StartView;
 import breakout.views.View;
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.sound.SoundFile;
 
 public class Sketch extends PApplet {
     public View view = new StartView(this);
@@ -15,6 +16,9 @@ public class Sketch extends PApplet {
 
     private PImage background;
 
+    public SoundFile brickHitSound;
+    public SoundFile buttonClickSound;
+
     public void settings() {
         size(CANVAS_SIZE_X, CANVAS_SIZE_Y);
     }
@@ -23,6 +27,9 @@ public class Sketch extends PApplet {
         surface.setTitle("Breakout");
         background = loadImage("pig.jpg");
         background.resize(CANVAS_SIZE_X, CANVAS_SIZE_Y);
+
+        brickHitSound = new SoundFile(this, "brick_hit.mp3");
+        buttonClickSound = new SoundFile(this, "button_click.mp3");
     }
 
     public void draw() {

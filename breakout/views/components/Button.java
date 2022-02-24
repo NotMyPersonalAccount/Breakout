@@ -37,6 +37,7 @@ public class Button extends Component.Base {
     }
 
     public void onClick() {
+        app.buttonClickSound.play();
         onClick.run();
     }
 

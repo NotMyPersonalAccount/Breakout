@@ -174,6 +174,7 @@ public class GameView extends View {
 
                 // Check if the ball is colliding with the brick.
                 if (Collision.circleRect(ball.x, ball.y, ball.radius, brick.x, brick.y, brick.width, brick.height)) {
+                    app.brickHitSound.play();
                     ball.ySpeed *= -1;
                     // Decrease the brick's health.
                     bricks[i].health--;
