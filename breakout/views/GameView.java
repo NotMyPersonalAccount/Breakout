@@ -174,7 +174,8 @@ public class GameView extends View {
 
                 // Check if the ball is colliding with the brick.
                 if (Collision.circleRect(ball.x, ball.y, ball.radius, brick.x, brick.y, brick.width, brick.height)) {
-                    app.brickHitSound.play();
+                    if (!simulate) app.brickHitSound.play();
+
                     ball.ySpeed *= -1;
                     // Decrease the brick's health.
                     bricks[i].health--;
@@ -324,7 +325,7 @@ public class GameView extends View {
     // Info is an enum of user-visible game information.
     enum Info {
         LIVES((view) -> "Lives: " + view.lives),
-        LEVEL((view) -> "Level: " + view.level),
+        LEVEL((view) -> "Level: " + (view.level + 1)),
         SCORE((view) -> "Score: " + view.score);
 
         private final InfoResolver resolver;
