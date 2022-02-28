@@ -18,6 +18,7 @@ public class Sketch extends PApplet {
 
     public SoundFile brickHitSound;
     public SoundFile buttonClickSound;
+    public SoundFile deathSound;
 
     public void settings() {
         size(CANVAS_SIZE_X, CANVAS_SIZE_Y);
@@ -30,6 +31,7 @@ public class Sketch extends PApplet {
 
         brickHitSound = new SoundFile(this, "brick_hit.mp3");
         buttonClickSound = new SoundFile(this, "button_click.mp3");
+        deathSound = new SoundFile(this, "death.mp3");
     }
 
     public void draw() {

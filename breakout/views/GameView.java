@@ -25,7 +25,7 @@ public class GameView extends View {
     private int level = 0;
     private ArrayList<Brick[]> levels;
 
-    private int lives = 1;
+    private int lives = 15;
     private int score = 0;
 
     private final Map<Info, Text> infoComponents;
@@ -154,6 +154,7 @@ public class GameView extends View {
                         return false;
                     }
                     resetBall();
+                    app.deathSound.play();
                 }
             }
 
@@ -204,8 +205,8 @@ public class GameView extends View {
     public void mousePressed() {
         // Check that the ball is not already moving.
         if (ball.xSpeed == 0 && ball.ySpeed == 0) {
-            ball.xSpeed = 7;
-            ball.ySpeed = -5;
+            ball.xSpeed = 8;
+            ball.ySpeed = -7;
         }
     }
 
