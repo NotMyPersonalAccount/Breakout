@@ -154,7 +154,7 @@ public class GameView extends View {
                         return false;
                     }
                     resetBall();
-                    app.deathSound.play();
+                    if (!simulate) app.deathSound.play();
                 }
             }
 
