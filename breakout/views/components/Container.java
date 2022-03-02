@@ -5,7 +5,7 @@ import breakout.Sketch;
 import static breakout.Sketch.BASE_TEXT_SIZE;
 
 // Container is a component that contains and automatically arranges child components. Awful code, BEWARE!
-final public class Container extends Component.Base {
+public class Container extends Component.Base {
     private final float fixedHeight;
     private final float fixedWidth;
     private final float paddingX;
@@ -13,7 +13,7 @@ final public class Container extends Component.Base {
     private final Alignment.X alignmentX;
     private final Alignment.Y alignmentY;
     private final Direction direction;
-    private final Component[] components;
+    protected Component[] components;
 
     public Container(Sketch app, BaseProperties properties, float fixedWidth, float fixedHeight, float paddingX, float paddingY, Alignment.X alignmentX, Alignment.Y alignmentY, Direction direction, Component... components) {
         super(app, properties);
