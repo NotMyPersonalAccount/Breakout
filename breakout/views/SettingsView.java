@@ -6,8 +6,7 @@ import breakout.views.components.Component;
 import breakout.views.components.Container;
 import breakout.views.components.Toggle;
 
-import static breakout.Sketch.CANVAS_SIZE_X;
-import static breakout.Sketch.CANVAS_SIZE_Y;
+import static breakout.Sketch.*;
 
 public class SettingsView extends PauseView {
     private static final float PAGE_BUTTONS_SIZE = CANVAS_SIZE_X / 4.8f;
@@ -26,11 +25,11 @@ public class SettingsView extends PauseView {
         this.cursorControl = pausedView.cursorControl;
 
         this.currentPage = this.generalPage = new Container.Builder(app).setDirection(Container.Direction.VERTICAL).setAlignmentX(Container.Alignment.X.LEFT).withComponents(
-                new Button.Builder(app).setText("Reset Ball").setOnClick(pausedView::resetBall).build()
+                new Button.Builder(app).setText("Reset Ball").setTextSize(BASE_TEXT_SIZE).setOnClick(pausedView::resetBall).build()
         ).build();
         this.cheatsPage = new Container.Builder(app).setDirection(Container.Direction.VERTICAL).setAlignmentX(Container.Alignment.X.LEFT).withComponents(
-                new Toggle.Builder(app).setToggled(showTrajectory).setText("Show Trajectory").setTextSize(PAGE_BUTTONS_SIZE).setOnToggle((toggled) -> showTrajectory = toggled).build(),
-                new Toggle.Builder(app).setToggled(cursorControl).setText("Cursor Control").setTextSize(PAGE_BUTTONS_SIZE).setOnToggle((toggled) -> cursorControl = toggled).build()
+                new Toggle.Builder(app).setToggled(showTrajectory).setText("Show Trajectory").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> showTrajectory = toggled).build(),
+                new Toggle.Builder(app).setToggled(cursorControl).setText("Cursor Control").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> cursorControl = toggled).build()
         ).build();
 
         rebuildComponents();

@@ -167,6 +167,12 @@ public class GameView extends View {
             ball.y = newY;
         }
 
+        // cursorControl is a cheat setting that allows controlling the position of the ball with your cursor.
+        if(cursorControl){
+            ball.x = app.mouseX;
+            ball.y = app.mouseY;
+        }
+
         // Get bricks of the current level.
         Brick[] bricks = levels.get(level);
         int remainingBricks = 0;
