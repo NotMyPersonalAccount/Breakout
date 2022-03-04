@@ -140,16 +140,18 @@ public class GameView extends View {
             float newY = ball.y + ball.ySpeed;
 
             // Check if hitting the left or right walls.
-            if (newX < ball.radius || newX > CANVAS_SIZE_X - ball.radius)
-                ball.xSpeed *= -1;
+            if (newX < ball.radius)
+                ball.xSpeed = Math.abs(ball.xSpeed);
+            else if(newX > CANVAS_SIZE_X - ball.radius)
+                ball.xSpeed = -Math.abs(ball.xSpeed);
             // Check if hitting the top wall.
-            if (newY < ball.radius) ball.ySpeed *= -1;
+            if (newY < ball.radius) ball.ySpeed = Math.abs(ball.ySpeed);
 
             // Check if ball is below the height of the paddle.
             if (newY > PADDLE_Y - ball.radius) {
                 // Check if the ball is colliding with paddle.
-                if (Collision.circleRect(ball.x, ball.y, ball.radius, paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT)) {
-                    ball.ySpeed *= -1;
+                if (Collision.circleRect(ball.x, ball.y, ball.radius, paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT) != Collision.NONE) {
+                    ball.ySpeed = -Math.abs(ball.ySpeed);
                 } else {
                     lives--;
                     if (lives == 0) {
@@ -183,10 +185,19 @@ public class GameView extends View {
                 remainingBricks++;
 
                 // Check if the ball is colliding with the brick.
-                if (Collision.circleRect(ball.x, ball.y, ball.radius, brick.x, brick.y, brick.width, brick.height)) {
+                Collision collision = Collision.circleRect(ball.x, ball.y, ball.radius, brick.x, brick.y, brick.width, brick.height);
+                if (collision != Collision.NONE) {
                     if (!simulate) app.brickHitSound.play();
 
-                    ball.ySpeed *= -1;
+                    if (collision == Collision.HORIZONTAL) {
+                        ball.xSpeed *= -1;
+                    } else if (collision == Collision.VERTICAL) {
+                        ball.ySpeed *= -1;
+                    } else if (collision == Collision.CORNER) {
+                        ball.xSpeed *= -1;
+                        ball.ySpeed *= -1;
+                    }
+
                     // Decrease the brick's health.
                     bricks[i].health--;
                     // Check if the brick is destroyed.
