@@ -1,6 +1,7 @@
 package breakout.views;
 
 import breakout.Sketch;
+import breakout.objects.Settings;
 import breakout.views.components.Button;
 import breakout.views.components.Component;
 import breakout.views.components.Container;
@@ -21,8 +22,8 @@ public class SettingsView extends PauseView {
     public SettingsView(Sketch app, GameView pausedView) {
         super(app, pausedView);
 
-        this.showTrajectory = pausedView.showTrajectory;
-        this.cursorControl = pausedView.cursorControl;
+        this.showTrajectory = Settings.SHOW_TRAJECTORY;
+        this.cursorControl = Settings.CURSOR_CONTROL;
 
         this.currentPage = this.generalPage = new Container.Builder(app).setDirection(Container.Direction.VERTICAL).setAlignmentX(Container.Alignment.X.LEFT).withComponents(
                 new Button.Builder(app).setText("Reset Ball").setTextSize(BASE_TEXT_SIZE).setOnClick(pausedView::resetBall).build()
@@ -48,8 +49,8 @@ public class SettingsView extends PauseView {
                         }).build(),
                         new Button.Builder(app).setWidth(PAGE_BUTTONS_SIZE).setText("Exit").setOnClick(() -> app.setView(new PauseView(app, pausedView))).build(),
                         new Button.Builder(app).setWidth(PAGE_BUTTONS_SIZE).setText("Save").setOnClick(() -> {
-                            pausedView.showTrajectory = showTrajectory;
-                            pausedView.cursorControl = cursorControl;
+                            Settings.SHOW_TRAJECTORY = showTrajectory;
+                            Settings.CURSOR_CONTROL = cursorControl;
                         }).build()
                 ).build(),
                 this.currentPage

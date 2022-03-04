@@ -3,6 +3,7 @@ package breakout.views;
 import breakout.Sketch;
 import breakout.objects.Ball;
 import breakout.objects.Brick;
+import breakout.objects.Settings;
 import breakout.utils.Collision;
 import breakout.views.components.*;
 
@@ -34,9 +35,7 @@ public class GameView extends View {
 
     private float paddleX;
 
-    public boolean showTrajectory = false;
     private GameView simulation;
-    public boolean cursorControl = false;
 
     public GameView(Sketch app) {
         this(app, false);
@@ -79,9 +78,9 @@ public class GameView extends View {
         app.fill(0);
         app.rect(paddleX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
-        // Update the simulated game instance for showing future ball path.
         app.textSize(BASE_TEXT_SIZE);
-        if (showTrajectory) {
+        if (Settings.SHOW_TRAJECTORY) {
+            // Update the simulated game instance for showing future ball path.
             updateSimulationInstance();
 
             // Simulate and draw the next 1000 ticks.
@@ -168,7 +167,7 @@ public class GameView extends View {
         }
 
         // cursorControl is a cheat setting that allows controlling the position of the ball with your cursor.
-        if(cursorControl){
+        if (Settings.CURSOR_CONTROL && app.mousePressed && !simulate) {
             ball.x = app.mouseX;
             ball.y = app.mouseY;
         }
