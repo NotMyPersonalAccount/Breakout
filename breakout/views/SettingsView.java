@@ -18,6 +18,7 @@ public class SettingsView extends PauseView {
 
     private boolean showTrajectory;
     private boolean cursorControl;
+    private boolean autoPlay;
 
     public SettingsView(Sketch app, GameView pausedView) {
         super(app, pausedView);
@@ -30,7 +31,8 @@ public class SettingsView extends PauseView {
         ).build();
         this.cheatsPage = new Container.Builder(app).setDirection(Container.Direction.VERTICAL).setAlignmentX(Container.Alignment.X.LEFT).withComponents(
                 new Toggle.Builder(app).setToggled(showTrajectory).setText("Show Trajectory").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> showTrajectory = toggled).build(),
-                new Toggle.Builder(app).setToggled(cursorControl).setText("Cursor Control").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> cursorControl = toggled).build()
+                new Toggle.Builder(app).setToggled(cursorControl).setText("Cursor Control").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> cursorControl = toggled).build(),
+                new Toggle.Builder(app).setToggled(cursorControl).setText("Auto Play").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> autoPlay = toggled).build()
         ).build();
 
         rebuildComponents();
@@ -51,6 +53,7 @@ public class SettingsView extends PauseView {
                         new Button.Builder(app).setWidth(PAGE_BUTTONS_SIZE).setText("Save").setOnClick(() -> {
                             Settings.SHOW_TRAJECTORY = showTrajectory;
                             Settings.CURSOR_CONTROL = cursorControl;
+                            Settings.AUTO_PLAY = autoPlay;
                         }).build()
                 ).build(),
                 this.currentPage

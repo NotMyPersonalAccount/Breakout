@@ -79,10 +79,11 @@ public class GameView extends View {
         app.rect(paddleX - (PADDLE_WIDTH / 2), PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
         app.textSize(BASE_TEXT_SIZE);
-        if (Settings.SHOW_TRAJECTORY) {
+        if (Settings.SHOW_TRAJECTORY || Settings.AUTO_PLAY) {
             // Update the simulated game instance for showing future ball path.
             updateSimulationInstance();
 
+            boolean shouldMovePaddle = Settings.AUTO_PLAY;
             // Simulate and draw the next 1000 ticks.
             for (int i = 0; i < 1000; i++) {
                 // Store the current simulated position and speed.
@@ -99,11 +100,14 @@ public class GameView extends View {
                     // Draw a red X at the simulated position if no longer moving; out of bounds.
                     app.fill(255, 0, 0);
                     app.text("X", simulation.ball.x, simulation.ball.y);
+                    if (shouldMovePaddle)
+                        paddleX = simulation.ball.x;
                     break; // Do not continue simulating if bounds reached.
                 } else if (oldBallXSpeed != simulation.ball.xSpeed || oldBallYSpeed != simulation.ball.ySpeed) {
                     // Draw a green Y at the simulated position if the speed or direction changes.
                     app.fill(0, 255, 0);
                     app.text("Y", simulation.ball.x, simulation.ball.y);
+                    shouldMovePaddle = false;
                 }
             }
         }
@@ -120,7 +124,7 @@ public class GameView extends View {
         if (!simulate) {
             // Don't tick if GameView is not the active view.
             if (app.view != this) return true;
-            paddleX = app.mouseX;
+            if (!Settings.AUTO_PLAY) paddleX = app.mouseX;
         }
 
         // Change paddle width over time from 100% to PADDLE_SIZE_CYCLE_MIN and back over PADDLE_SIZE_CYCLE_DURATION milliseconds.
@@ -142,7 +146,7 @@ public class GameView extends View {
             // Check if hitting the left or right walls.
             if (newX < ball.radius)
                 ball.xSpeed = Math.abs(ball.xSpeed);
-            else if(newX > CANVAS_SIZE_X - ball.radius)
+            else if (newX > CANVAS_SIZE_X - ball.radius)
                 ball.xSpeed = -Math.abs(ball.xSpeed);
             // Check if hitting the top wall.
             if (newY < ball.radius) ball.ySpeed = Math.abs(ball.ySpeed);
