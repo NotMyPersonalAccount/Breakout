@@ -16,6 +16,7 @@ public class Sketch extends PApplet {
 
     private PImage background;
 
+    public SoundFile backgroundMusic;
     public SoundFile brickHitSound;
     public SoundFile buttonClickSound;
     public SoundFile deathSound;
@@ -29,6 +30,8 @@ public class Sketch extends PApplet {
         background = loadImage("pig.jpg");
         background.resize(CANVAS_SIZE_X, CANVAS_SIZE_Y);
 
+        backgroundMusic = new SoundFile(this, "background.mp3");
+        backgroundMusic.loop();
         brickHitSound = new SoundFile(this, "brick_hit.mp3");
         buttonClickSound = new SoundFile(this, "button_click.mp3");
         deathSound = new SoundFile(this, "death.mp3");

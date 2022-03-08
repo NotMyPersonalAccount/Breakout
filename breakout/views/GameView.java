@@ -3,7 +3,7 @@ package breakout.views;
 import breakout.Sketch;
 import breakout.objects.Ball;
 import breakout.objects.Brick;
-import breakout.objects.Settings;
+import breakout.utils.Settings;
 import breakout.utils.Collision;
 import breakout.views.components.*;
 
@@ -55,6 +55,7 @@ public class GameView extends View {
         initGame();
         if (!simulation) {
             this.simulation = new GameView(app, true);
+            if (!app.backgroundMusic.isPlaying()) app.backgroundMusic.play();
         }
     }
 

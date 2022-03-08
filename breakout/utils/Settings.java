@@ -1,4 +1,4 @@
-package breakout.objects;
+package breakout.utils;
 
 public class Settings {
     public static boolean SHOW_TRAJECTORY = false;

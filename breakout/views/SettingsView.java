@@ -1,7 +1,7 @@
 package breakout.views;
 
 import breakout.Sketch;
-import breakout.objects.Settings;
+import breakout.utils.Settings;
 import breakout.views.components.Button;
 import breakout.views.components.Component;
 import breakout.views.components.Container;
@@ -32,7 +32,7 @@ public class SettingsView extends PauseView {
         this.cheatsPage = new Container.Builder(app).setDirection(Container.Direction.VERTICAL).setAlignmentX(Container.Alignment.X.LEFT).withComponents(
                 new Toggle.Builder(app).setToggled(showTrajectory).setText("Show Trajectory").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> showTrajectory = toggled).build(),
                 new Toggle.Builder(app).setToggled(cursorControl).setText("Cursor Control").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> cursorControl = toggled).build(),
-                new Toggle.Builder(app).setToggled(cursorControl).setText("Auto Play").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> autoPlay = toggled).build()
+                new Toggle.Builder(app).setToggled(autoPlay).setText("Auto Play").setTextSize(BASE_TEXT_SIZE).setOnToggle((toggled) -> autoPlay = toggled).build()
         ).build();
 
         rebuildComponents();
